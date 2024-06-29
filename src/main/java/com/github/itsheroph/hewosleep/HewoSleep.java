@@ -36,7 +36,6 @@ public class HewoSleep extends HewoPlugin {
         this.getPluginLogger().log("&7&oLoading configuration file...");
         this.config = new HewoConfig(this, "config.yml");
         this.getConfig().options().copyDefaults(true);
-        this.getConfig().options().parseComments(true);
         this.saveDefaultConfig();
 
     }
