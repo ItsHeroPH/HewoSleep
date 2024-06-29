@@ -1,0 +1,22 @@
+# Choose if the multiplayer sleep is enabled
+# true    - to enable the multiplayer sleep
+# false   - to disable the multiplayer sleep
+# Default: false
+enable: false
+
+# Choose how many percentage of players are needed to sleep
+# eg. (percentage: 20 -> players: 10 -> needed to sleep to skip the night/storm: 2 players)
+# Default: 100
+percentage: 100
+
+# The time in seconds that players need to wait before they can enter the bed again after leaving it
+# Default: 10
+bed_enter_delay: 10
+
+# Choose if you want to ignore afk players to be able to skip the night
+# This is mostly used when player is afk but the number of sleepers is not enough
+# If player is not moving more than 3 minutes will be considered as afk player
+# true    - ignoring to count afk players in number of sleepers
+# false   - afk players will not ignore in counting number of sleepers
+# Default: false
+ignore_afk_players: false

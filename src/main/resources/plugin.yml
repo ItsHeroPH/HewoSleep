@@ -1,0 +1,48 @@
+name: HewoSleep
+version: '${project.version}'
+main: com.github.itsheroph.hewosleep.HewoSleep
+api-version: '1.20'
+commands:
+  hewosleep:
+    description: 'See all the HewoSleep command list'
+    default: true
+    usage: 'Perform /hs or /hs help to see all the list of commands'
+    aliases:
+      - hs
+permissions:
+  hewosleep.staff:
+    description: 'Allows the user to use the management commands'
+    default: op
+    children:
+      hewosleep.command.help: true
+      hewosleep.command.reload: true
+      hewosleep.command.setflag: true
+      hewosleep.command.sleep: true
+      hewosleep.command.version: true
+  hewosleep.user:
+    description: 'Default permission of the user'
+    default: op
+    children:
+      hewosleep.command.help: true
+      hewosleep.command.reload: false
+      hewosleep.command.setflag: false
+      hewosleep.command.sleep: false
+      hewosleep.command.version: true
+  hewosleep.command.help:
+    description: 'Allows the user to use the help command'
+    default: not op
+  hewosleep.command.reload:
+    description: 'Allows the user to use the reload command'
+    default: op
+  hewosleep.command.setflag:
+    description: 'Allows the user to use the setflag command'
+    default: op
+  hewosleep.command.sleep:
+    description: 'Allows the user to use the sleep command'
+    default: op
+  hewosleep.command.version:
+    description: 'Allows the user to use the version command'
+    default: not op
+  hewosleep.monster:
+    description: 'Allows the user to sleep with nearby monsters'
+    default: op
