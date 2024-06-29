@@ -27,6 +27,8 @@ public class TimeSkipEventListener implements Listener {
     @EventHandler
     public void onTimeSkips(TimeSkipEvent event) {
 
+        if(!this.manager.getAPI().isEnable()) return;
+
         HewoMessenger messenger = this.manager.getAPI().getMessenger();
         SleepWorld world = this.manager.getSleepWorld(event.getWorld());
 
