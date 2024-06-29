@@ -11,34 +11,29 @@ import com.github.itsheroph.hewoutil.messaging.commands.HewoCMDMessenger;
 import com.github.itsheroph.hewoutil.messaging.logging.HewoLogger;
 import com.github.itsheroph.hewoutil.plugin.HewoPlugin;
 import com.github.itsheroph.hewoutil.plugin.commands.HewoCMDHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 
 public class HewoSleep extends HewoPlugin {
 
     private HewoSleepAPI api;
 
-    public HewoSleep() {
-
-        super(new HewoLogger("HewoSleepV1"));
-
-    }
-
     @Override
     public void onLoad() {
+
+        this.setPluginLogger(new HewoLogger(this,"HewoSleepV1"));
 
         // Check if the plugin is running on snapshot version
         if(this.getDescription().getVersion().contains("-SNAPSHOT")) {
 
-            this.getPluginLogger().warning(
-                    "You are running on a snapshot version of the plugin",
-                    "That means the plugin has potentially have a bugs or errors"
+            this.getPluginLogger().log(
+                    "&eYou are running on a snapshot version of the plugin",
+                    "&eThat means the plugin has potentially have a bugs or errors"
             );
 
         }
 
         // Load the config.yml file
-        this.getPluginLogger().info("Loading configuration file...");
+        this.getPluginLogger().log("&7&oLoading configuration file...");
         this.config = new HewoConfig(this, "config.yml");
         this.getConfig().options().copyDefaults(true);
         this.getConfig().options().parseComments(true);
@@ -50,11 +45,11 @@ public class HewoSleep extends HewoPlugin {
     public void onEnable() {
 
         // Load the Hewo Sleep API
-        this.getPluginLogger().info("Initializing API...");
+        this.getPluginLogger().log("&7&oInitializing API...");
         this.api = new HewoSleepAPI(this);
 
         // Register all the plugin commands
-        this.getPluginLogger().info("Registering plugin commands...");
+        this.getPluginLogger().log("&7&oRegistering plugin commands...");
         this.getCommand("hewosleep").setExecutor(new HewoCMDHandler(this,
                 new HewoCMDMessenger(this, this.getPluginLogger()),
                     new HelpCommand(this),
@@ -65,10 +60,12 @@ public class HewoSleep extends HewoPlugin {
                 )
         );
 
-        Bukkit.getLogger().info("-------------------------------------------------------");
-        this.getPluginLogger().info(this.getDescription().getName() + "-" + this.getDescription().getVersion());
-        this.getPluginLogger().info("Running on Bukkit - Paper v." + this.getDescription().getAPIVersion());
-        Bukkit.getLogger().info("-------------------------------------------------------");
+        this.getPluginLogger().log(false,
+                "",
+                "&6HewoSleep &3&lv" + this.getDescription().getVersion(),
+                "&7Running on Bukkit - Paper v" + this.getDescription().getAPIVersion(),
+                ""
+        );
 
     }
 
