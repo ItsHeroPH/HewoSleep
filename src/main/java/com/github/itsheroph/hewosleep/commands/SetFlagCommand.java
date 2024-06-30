@@ -41,9 +41,9 @@ public class SetFlagCommand extends HewoCommand {
 
         return List.of(
                 "enable",
-                "sleepingPercentage",
-                "bedEnterDelay",
-                "ignoreAfkPlayers"
+                "sleeping_percentage",
+                "bed_enter_delay",
+                "ignore_afk_players"
         );
 
     }
@@ -114,7 +114,7 @@ public class SetFlagCommand extends HewoCommand {
                     }
 
                     break;
-                case "sleepingPercentage":
+                case "sleeping_percentage":
 
                     if (arguments.length == 2) {
 
@@ -139,7 +139,7 @@ public class SetFlagCommand extends HewoCommand {
                     }
 
                     break;
-                case "bedEnterDelay":
+                case "bed_enter_delay":
 
                     if (arguments.length == 2) {
 
@@ -165,12 +165,12 @@ public class SetFlagCommand extends HewoCommand {
                     }
 
                     break;
-                case "ignoreAfkPlayers":
+                case "ignore_afk_players":
 
                     if (arguments.length == 2) {
 
                         this.getMessenger().sendMessage(commandSender, "command_setflag_config_ignoreAfkPlayers_current",
-                                new HewoMsgEntry("<value>", this.plugin.getAPI().getBedEnterDelay() + "s")
+                                new HewoMsgEntry("<value>", this.plugin.getAPI().ignoreAfkPlayers())
                         );
 
                         return true;
@@ -189,6 +189,13 @@ public class SetFlagCommand extends HewoCommand {
 
                         return true;
                     }
+
+                    break;
+                default:
+
+                    this.getMessenger().sendMessage(commandSender, "command_setflag_flag_list",
+                            new HewoMsgEntry("<flag_list>", this.getOptions().toString().replace("[", "").replace("]", ""))
+                    );
 
                     break;
             }

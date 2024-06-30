@@ -81,7 +81,7 @@ public class HewoSleepAPI {
 
     public void setBedEnterDelay(int bedEnterDelay) {
 
-        this.getPlugin().getConfig().set("bed_enter_delay", percentage);
+        this.getPlugin().getConfig().set("bed_enter_delay", bedEnterDelay);
         this.bedEnterDelay = bedEnterDelay;
         this.getPlugin().saveConfig();
 

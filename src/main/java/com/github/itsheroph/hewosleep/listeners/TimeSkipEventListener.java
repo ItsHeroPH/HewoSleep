@@ -4,14 +4,11 @@ import com.github.itsheroph.hewosleep.models.SleepPlayer;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
 import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import com.github.itsheroph.hewosleep.util.TimeState;
-import com.github.itsheroph.hewosleep.util.TimeUtil;
 import com.github.itsheroph.hewoutil.messaging.HewoMessenger;
 import com.github.itsheroph.hewoutil.messaging.HewoMsgEntry;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.TimeSkipEvent;
-import org.bukkit.event.world.TimeSkipEvent.SkipReason;
 
 
 public class TimeSkipEventListener implements Listener {
@@ -32,20 +29,8 @@ public class TimeSkipEventListener implements Listener {
         HewoMessenger messenger = this.manager.getAPI().getMessenger();
         SleepWorld world = this.manager.getSleepWorld(event.getWorld());
 
-        if(world.getTime() == TimeUtil.BED_TIME_MORNING || event.getSkipReason() == SkipReason.NIGHT_SKIP) {
-
-            for(Player player : world.getAllPlayersInWorld()) {
-
-                messenger.sendMessage(player, "dayTime_message",
-                        new HewoMsgEntry("<player>", player.getName())
-                );
-
-            }
-
-        }
-
         TimeState nextState = TimeState.getState(world);
-        if(world.getTimeState().isNextState(nextState)) {
+        if(world.getTimeState() != nextState) {
 
             world.setTimeState(nextState);
 
@@ -63,7 +48,11 @@ public class TimeSkipEventListener implements Listener {
                     break;
                 case CANNOT_SLEEP:
 
-                    for(SleepPlayer player : world.getSleepingPlayers()) {
+                    for(SleepPlayer player : world.getAllPlayers().values()) {
+
+                        messenger.sendMessage(player.getPlayer(), "dayTime_message",
+                                new HewoMsgEntry("<player>", player.getPlayer().getName())
+                        );
 
                         player.setSleeping(false);
 

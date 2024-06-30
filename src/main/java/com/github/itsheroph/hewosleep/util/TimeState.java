@@ -7,12 +7,6 @@ public enum TimeState {
     CAN_SLEEP_SOON,
     CAN_SLEEP_NOW;
 
-    public boolean isNextState(TimeState state) {
-
-        return values()[(this.ordinal() + 1) % values().length] == state;
-
-    }
-
     public static TimeState getState(SleepWorld world) {
 
         long time = world.getTime();

@@ -78,6 +78,7 @@ public class HewoSleep extends HewoPlugin {
         this.getAPI().getManager().stopAllSleepRunnables();
 
         // Save the config.yml
+        this.getPluginLogger().log("&7&oSaving configuration file...");
         this.saveConfig();
 
         this.config = null;
