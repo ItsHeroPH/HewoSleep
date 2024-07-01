@@ -1,6 +1,7 @@
 name: HewoSleep
 version: '${project.version}'
 main: com.github.itsheroph.hewosleep.HewoSleep
+softdepend: [Essentials, PlaceholderAPI]
 api-version: '1.20'
 commands:
   hewosleep:

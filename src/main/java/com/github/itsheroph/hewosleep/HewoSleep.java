@@ -6,6 +6,8 @@ import com.github.itsheroph.hewosleep.commands.ReloadCommand;
 import com.github.itsheroph.hewosleep.commands.SetFlagCommand;
 import com.github.itsheroph.hewosleep.commands.SleepCommand;
 import com.github.itsheroph.hewosleep.commands.VersionCommand;
+import com.github.itsheroph.hewosleep.hooks.EssentialsHook;
+import com.github.itsheroph.hewosleep.hooks.PlaceholderAPIHook;
 import com.github.itsheroph.hewoutil.configuration.HewoConfig;
 import com.github.itsheroph.hewoutil.messaging.commands.HewoCMDMessenger;
 import com.github.itsheroph.hewoutil.messaging.logging.HewoLogger;
@@ -44,12 +46,20 @@ public class HewoSleep extends HewoPlugin {
         this.api = new HewoSleepAPI(this);
 
         boolean hasEssentials = Bukkit.getPluginManager().getPlugin("Essentials") != null;
+        boolean hasPlaceholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
 
         // checks if essentials is supported
         if(hasEssentials) {
 
-            this.getAPI().setEssentials(true);
+            this.getAPI().addHooks(new EssentialsHook(this.getAPI()));
             this.getPluginLogger().log("&7&oEnabling Essentials support");
+
+        }
+        // checks if placeholderAPI is supported
+        if(hasPlaceholderAPI) {
+
+            this.getAPI().addHooks(new PlaceholderAPIHook(this.getAPI()));
+            this.getPluginLogger().log("&7&oEnabling Placeholder API support");
 
         }
 
@@ -75,6 +85,9 @@ public class HewoSleep extends HewoPlugin {
                     new VersionCommand(this)
                 )
         );
+
+        // Register all hooks
+        this.getAPI().registerHooks();
 
         this.getPluginLogger().log(false,
                 "",

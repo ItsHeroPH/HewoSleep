@@ -1,5 +1,6 @@
 package com.github.itsheroph.hewosleep.models;
 
+import com.github.itsheroph.hewosleep.hooks.EssentialsHook;
 import com.github.itsheroph.hewosleep.runnables.SleepWorldRunnable;
 import com.github.itsheroph.hewosleep.util.TimeState;
 import com.github.itsheroph.hewosleep.util.TimeUtil;
@@ -162,9 +163,10 @@ public class SleepWorld {
 
     public int getSleepersNeeded() {
 
+        EssentialsHook essentialsHook = (EssentialsHook) this.getManager().getAPI().getHooks("Essentials");
         boolean ignoreAFKPlayers = this.getManager().getAPI().ignoreAfkPlayers();
         boolean ignoreVanishPlayers = this.getManager().getAPI().ignoreVanishPlayers();
-        boolean hasEssentials = this.getManager().getAPI().hasEssentials();
+        boolean hasEssentials = essentialsHook != null && essentialsHook.isEnable();
 
         int percentage = this.getManager().getAPI().getPercentage();
         int numAfkPlayers = this.getAFKPlayers().size();

@@ -1,10 +1,16 @@
 package com.github.itsheroph.hewosleep.api;
 
 import com.github.itsheroph.hewosleep.HewoSleep;
+import com.github.itsheroph.hewosleep.hooks.EssentialsHook;
+import com.github.itsheroph.hewosleep.hooks.Hooks;
 import com.github.itsheroph.hewosleep.listeners.*;
 import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import com.github.itsheroph.hewoutil.messaging.HewoMessenger;
 import org.bukkit.Bukkit;
+
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HewoSleepAPI {
 
@@ -15,7 +21,7 @@ public class HewoSleepAPI {
     private boolean enable, ignoreAfkPlayers, ignoreVanishPlayers;
     private int percentage, bedEnterDelay, nightSkipLength;
 
-    private boolean hasEssentials = false;
+    private final Map<String, Hooks> hooksMap = new HashMap<>();
 
     public HewoSleepAPI(HewoSleep plugin) {
 
@@ -137,6 +143,7 @@ public class HewoSleepAPI {
 
         this.manager = new SleepWorldManager(this);
 
+
     }
 
     public void registerEvents() {
@@ -147,37 +154,36 @@ public class HewoSleepAPI {
         Bukkit.getPluginManager().registerEvents(new PlayerLeaveEventListener(this.getManager()), this.getPlugin());
         Bukkit.getPluginManager().registerEvents(new TimeSkipEventListener(this.getManager()), this.getPlugin());
 
-        if(this.hasEssentials()) {
+        EssentialsHook essentialsHook = (EssentialsHook) this.getHooks("Essentials");
 
-            try {
+        if(essentialsHook != null && essentialsHook.isEnable()) {
 
-                Class.forName("net.ess3.api.events.AfkStatusChangeEvent");
-                Class.forName("net.ess3.api.events.VanishStatusChangeEvent");
-                this.getPlugin().getPluginLogger().log("&2&oEssentials support is enable!");
-
-                Bukkit.getPluginManager().registerEvents(new AfkStatusChangeEventListener(this.getManager()), this.getPlugin());
-                Bukkit.getPluginManager().registerEvents(new VanishStatusChangeEventListener(this.getManager()), this.getPlugin());
-
-            } catch (ClassNotFoundException e) {
-
-                this.getPlugin().getPluginLogger().log("&c&oYour Essentials version is incompatible with this version of HewoSleep");
-                this.setEssentials(false);
-
-            }
+            Bukkit.getPluginManager().registerEvents(new AfkStatusChangeEventListener(this.getManager()), this.getPlugin());
+            Bukkit.getPluginManager().registerEvents(new VanishStatusChangeEventListener(this.getManager()), this.getPlugin());
 
         }
 
     }
 
-    public boolean hasEssentials() {
+    public @Nullable Hooks getHooks(String name) {
 
-        return this.hasEssentials;
+        return this.hooksMap.getOrDefault(name, null);
+
+    }
+
+    public void addHooks(Hooks hooks) {
+
+        this.hooksMap.put(hooks.getName(), hooks);
 
     }
 
-    public void setEssentials(boolean enable) {
+    public void registerHooks() {
 
-        this.hasEssentials = enable;
+        for(Hooks hooks : this.hooksMap.values()) {
 
+            hooks.register();
+
+        }
     }
+
 }
