@@ -29,37 +29,41 @@ public class TimeSkipEventListener implements Listener {
         HewoMessenger messenger = this.manager.getAPI().getMessenger();
         SleepWorld world = this.manager.getSleepWorld(event.getWorld());
 
-        TimeState nextState = TimeState.getState(world);
-        if(world.getTimeState() != nextState) {
+        if(world != null) {
 
-            world.setTimeState(nextState);
+            TimeState nextState = TimeState.getState(world);
+            if(world.getTimeState() != nextState) {
 
-            switch(nextState) {
+                world.setTimeState(nextState);
 
-                case CAN_SLEEP_SOON:
+                switch(nextState) {
 
-                    messenger.sendMessage(world.getAllPlayersInWorld(), "can_sleep_soon", true);
+                    case CAN_SLEEP_SOON:
 
-                    break;
-                case CAN_SLEEP_NOW:
+                        messenger.sendMessage(world.getAllPlayersInWorld(), "can_sleep_soon", true);
 
-                    messenger.sendMessage(world.getAllPlayersInWorld(), "can_sleep_now", true);
+                        break;
+                    case CAN_SLEEP_NOW:
 
-                    break;
-                case CANNOT_SLEEP:
+                        messenger.sendMessage(world.getAllPlayersInWorld(), "can_sleep_now", true);
 
-                    for(SleepPlayer player : world.getAllPlayers().values()) {
+                        break;
+                    case CANNOT_SLEEP:
 
-                        messenger.sendMessage(player.getPlayer(), "dayTime_message",
-                                new HewoMsgEntry("<player>", player.getPlayer().getName())
-                        );
+                        for(SleepPlayer player : world.getAllPlayers().values()) {
 
-                        player.setSleeping(false);
+                            messenger.sendMessage(player.getPlayer(), "dayTime_message",
+                                    new HewoMsgEntry("<player>", player.getPlayer().getName())
+                            );
 
-                    }
+                            player.setSleeping(false);
 
-                    break;
+                        }
+
+                        break;
+                }
             }
+
         }
     }
 }

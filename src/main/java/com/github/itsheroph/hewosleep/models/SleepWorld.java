@@ -112,6 +112,14 @@ public class SleepWorld {
 
     }
 
+    public List<SleepPlayer> getVanishedPlayers() {
+
+        return this.getAllPlayers().values().stream()
+                .filter(this::isPlayerVanished)
+                .collect(Collectors.toList());
+
+    }
+
     public List<SleepPlayer> getSleepingPlayers() {
 
         return this.getAllPlayers().values().stream()
@@ -154,12 +162,17 @@ public class SleepWorld {
 
     public int getSleepersNeeded() {
 
-        boolean ignoreAFKPlayers = this.manager.getAPI().ignoreAfkPlayers();
-        int percentage = this.manager.getAPI().getPercentage();
+        boolean ignoreAFKPlayers = this.getManager().getAPI().ignoreAfkPlayers();
+        boolean ignoreVanishPlayers = this.getManager().getAPI().ignoreVanishPlayers();
+        boolean hasEssentials = this.getManager().getAPI().hasEssentials();
+
+        int percentage = this.getManager().getAPI().getPercentage();
         int numAfkPlayers = this.getAFKPlayers().size();
+        int numVanishPlayers = this.getVanishedPlayers().size();
         int numPlayers = this.getAllPlayers().size();
 
         if(ignoreAFKPlayers) numPlayers = numPlayers - numAfkPlayers;
+        if(ignoreVanishPlayers && hasEssentials) numPlayers = numPlayers - numVanishPlayers;
 
         return Math.max(Math.round((float) (numPlayers * percentage) / 100), 1);
 
@@ -186,6 +199,12 @@ public class SleepWorld {
     private boolean isPlayerAFK(SleepPlayer player) {
 
         return player.isAfk();
+
+    }
+
+    private boolean isPlayerVanished(SleepPlayer player) {
+
+        return player.isVanished();
 
     }
 

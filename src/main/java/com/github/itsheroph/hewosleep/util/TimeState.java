@@ -13,7 +13,7 @@ public enum TimeState {
 
         long almostSleepTime = TimeUtil.BED_TIME_NIGHT - 1200;
 
-        if(time >= 0 && time < almostSleepTime) {
+        if(time >= TimeUtil.BED_TIME_MORNING && (time < almostSleepTime || time >= TimeUtil.TIME_NIGHT_END)) {
 
             return CANNOT_SLEEP;
 

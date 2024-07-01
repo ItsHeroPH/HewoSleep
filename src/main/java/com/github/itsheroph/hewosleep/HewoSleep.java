@@ -11,6 +11,7 @@ import com.github.itsheroph.hewoutil.messaging.commands.HewoCMDMessenger;
 import com.github.itsheroph.hewoutil.messaging.logging.HewoLogger;
 import com.github.itsheroph.hewoutil.plugin.HewoPlugin;
 import com.github.itsheroph.hewoutil.plugin.commands.HewoCMDHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 
 public class HewoSleep extends HewoPlugin {
@@ -38,14 +39,30 @@ public class HewoSleep extends HewoPlugin {
         this.getConfig().options().copyDefaults(true);
         this.saveDefaultConfig();
 
+        // Load the Hewo Sleep API
+        this.getPluginLogger().log("&7&oInitializing API...");
+        this.api = new HewoSleepAPI(this);
+
+        boolean hasEssentials = Bukkit.getPluginManager().getPlugin("Essentials") != null;
+
+        // checks if essentials is supported
+        if(hasEssentials) {
+
+            this.getAPI().setEssentials(true);
+            this.getPluginLogger().log("&7&oEnabling Essentials support");
+
+        }
+
     }
 
     @Override
     public void onEnable() {
 
-        // Load the Hewo Sleep API
-        this.getPluginLogger().log("&7&oInitializing API...");
-        this.api = new HewoSleepAPI(this);
+        // Register sleep world manager
+        this.getAPI().registerManager();
+
+        // Register all events
+        this.getAPI().registerEvents();
 
         // Register all the plugin commands
         this.getPluginLogger().log("&7&oRegistering plugin commands...");

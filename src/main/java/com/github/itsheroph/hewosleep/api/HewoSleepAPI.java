@@ -1,29 +1,33 @@
 package com.github.itsheroph.hewosleep.api;
 
 import com.github.itsheroph.hewosleep.HewoSleep;
+import com.github.itsheroph.hewosleep.listeners.*;
 import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import com.github.itsheroph.hewoutil.messaging.HewoMessenger;
+import org.bukkit.Bukkit;
 
 public class HewoSleepAPI {
 
     private final HewoSleep plugin;
     private final HewoMessenger messenger;
-    private final SleepWorldManager manager;
+    private SleepWorldManager manager;
 
-    private boolean enable, ignoreAfkPlayers;
-    private int percentage, bedEnterDelay;
+    private boolean enable, ignoreAfkPlayers, ignoreVanishPlayers;
+    private int percentage, bedEnterDelay, nightSkipLength;
+
+    private boolean hasEssentials = false;
 
     public HewoSleepAPI(HewoSleep plugin) {
 
         this.plugin = plugin;
         this.messenger = new HewoMessenger(this.getPlugin(), this.getPlugin().getPluginLogger(), "HewoSleepV1");
-        this.manager = new SleepWorldManager(this);
 
         this.enable = this.getPlugin().getConfig().getBoolean("enable");
         this.percentage = this.getPlugin().getConfig().getInt("percentage");
         this.bedEnterDelay = this.getPlugin().getConfig().getInt("bed_enter_delay");
+        this.nightSkipLength = this.getPlugin().getConfig().getInt("night_skip_length");
         this.ignoreAfkPlayers = this.getPlugin().getConfig().getBoolean("ignore_afk_players");
-
+        this.ignoreVanishPlayers = this.getPlugin().getConfig().getBoolean("ignore_vanish_players");
 
     }
 
@@ -87,6 +91,20 @@ public class HewoSleepAPI {
 
     }
 
+    public int getNightSkipLength() {
+
+        return this.nightSkipLength;
+
+    }
+
+    public void setNightSkipLength(int nightSkipLength) {
+
+        this.getPlugin().getConfig().set("night_skip_length", nightSkipLength);
+        this.nightSkipLength = nightSkipLength;
+        this.getPlugin().saveConfig();
+
+    }
+
     public boolean ignoreAfkPlayers() {
 
         return this.ignoreAfkPlayers;
@@ -98,6 +116,68 @@ public class HewoSleepAPI {
         this.getPlugin().getConfig().set("ignore_afk_players", ignoreAfkPlayers);
         this.ignoreAfkPlayers = ignoreAfkPlayers;
         this.getPlugin().saveConfig();
+
+    }
+
+    public boolean ignoreVanishPlayers() {
+
+        return this.ignoreVanishPlayers;
+
+    }
+
+    public void setIgnoreVanishPlayers(boolean ignoreVanishPlayers) {
+
+        this.getPlugin().getConfig().set("ignore_vanish_players", ignoreVanishPlayers);
+        this.ignoreVanishPlayers = ignoreVanishPlayers;
+        this.getPlugin().saveConfig();
+
+    }
+
+    public void registerManager() {
+
+        this.manager = new SleepWorldManager(this);
+
+    }
+
+    public void registerEvents() {
+
+        Bukkit.getPluginManager().registerEvents(new BedEnterEventListener(this.getManager()), this.getPlugin());
+        Bukkit.getPluginManager().registerEvents(new BedLeveEventListener(this.getManager()), this.getPlugin());
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinEventListener(this.getManager()), this.getPlugin());
+        Bukkit.getPluginManager().registerEvents(new PlayerLeaveEventListener(this.getManager()), this.getPlugin());
+        Bukkit.getPluginManager().registerEvents(new TimeSkipEventListener(this.getManager()), this.getPlugin());
+
+        if(this.hasEssentials()) {
+
+            try {
+
+                Class.forName("net.ess3.api.events.AfkStatusChangeEvent");
+                Class.forName("net.ess3.api.events.VanishStatusChangeEvent");
+                this.getPlugin().getPluginLogger().log("&2&oEssentials support is enable!");
+
+                Bukkit.getPluginManager().registerEvents(new AfkStatusChangeEventListener(this.getManager()), this.getPlugin());
+                Bukkit.getPluginManager().registerEvents(new VanishStatusChangeEventListener(this.getManager()), this.getPlugin());
+
+            } catch (ClassNotFoundException e) {
+
+                this.getPlugin().getPluginLogger().log("&c&oYour Essentials version is incompatible with this version of HewoSleep");
+                this.setEssentials(false);
+
+            }
+
+        }
+
+    }
+
+    public boolean hasEssentials() {
+
+        return this.hasEssentials;
+
+    }
+
+    public void setEssentials(boolean enable) {
+
+        this.hasEssentials = enable;
 
     }
 }

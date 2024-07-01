@@ -34,7 +34,7 @@ public class SleepPlayerRunnable extends BukkitRunnable {
 
         if(player.getLocation().getX() == lastPostion.getX() && player.getLocation().getZ() == lastPostion.getZ()) {
 
-            sleepPlayer.setAfk(currentTime - lastMoved >= 180000);
+            if(currentTime - lastMoved >= 180000) sleepPlayer.setAfk(true);
 
         } else {
 

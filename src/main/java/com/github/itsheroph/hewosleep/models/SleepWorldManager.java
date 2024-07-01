@@ -1,11 +1,6 @@
 package com.github.itsheroph.hewosleep.models;
 
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
-import com.github.itsheroph.hewosleep.listeners.BedEnterEventListener;
-import com.github.itsheroph.hewosleep.listeners.BedLeveEventListener;
-import com.github.itsheroph.hewosleep.listeners.PlayerJoinEventListener;
-import com.github.itsheroph.hewosleep.listeners.PlayerLeaveEventListener;
-import com.github.itsheroph.hewosleep.listeners.TimeSkipEventListener;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -34,12 +29,6 @@ public class SleepWorldManager {
             }
 
         }
-
-        Bukkit.getPluginManager().registerEvents(new BedEnterEventListener(this), this.getAPI().getPlugin());
-        Bukkit.getPluginManager().registerEvents(new BedLeveEventListener(this), this.getAPI().getPlugin());
-        Bukkit.getPluginManager().registerEvents(new PlayerJoinEventListener(this), this.getAPI().getPlugin());
-        Bukkit.getPluginManager().registerEvents(new PlayerLeaveEventListener(this), this.getAPI().getPlugin());
-        Bukkit.getPluginManager().registerEvents(new TimeSkipEventListener(this), this.getAPI().getPlugin());
 
     }
 

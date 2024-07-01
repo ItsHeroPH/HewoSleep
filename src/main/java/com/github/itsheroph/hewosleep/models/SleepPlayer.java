@@ -2,7 +2,6 @@ package com.github.itsheroph.hewosleep.models;
 
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
 import com.github.itsheroph.hewosleep.runnables.SleepPlayerRunnable;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -13,6 +12,7 @@ public class SleepPlayer {
     private final SleepPlayerRunnable runnable;
 
     private boolean afk;
+    private boolean vanished;
     private boolean sleeping;
     private Location position;
     private long lastBedEntered = 0;
@@ -24,6 +24,7 @@ public class SleepPlayer {
         this.player = player;
         this.runnable = new SleepPlayerRunnable(this);
         this.afk = false;
+        this.vanished = false;
         this.sleeping = false;
         this.position = player.getLocation();
 
@@ -71,6 +72,18 @@ public class SleepPlayer {
     public void setAfk(boolean afk) {
 
         this.afk = afk;
+
+    }
+
+    public boolean isVanished() {
+
+        return this.vanished;
+
+    }
+
+    public void setVanished(boolean vanished) {
+
+        this.vanished = vanished;
 
     }
 

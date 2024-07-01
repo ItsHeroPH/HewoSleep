@@ -43,7 +43,9 @@ public class SetFlagCommand extends HewoCommand {
                 "enable",
                 "sleeping_percentage",
                 "bed_enter_delay",
-                "ignore_afk_players"
+                "night_skip_length",
+                "ignore_afk_players",
+                "ignore_vanish_players"
         );
 
     }
@@ -77,8 +79,14 @@ public class SetFlagCommand extends HewoCommand {
             this.getMessenger().sendMessage(commandSender, "command_setflag_config_bedEnterDelay", false,
                     new HewoMsgEntry("<value>", this.plugin.getAPI().getBedEnterDelay() + "s")
             );
+            this.getMessenger().sendMessage(commandSender, "command_setflag_config_nightSkipLength", false,
+                    new HewoMsgEntry("<value>", this.plugin.getAPI().getNightSkipLength() + "s")
+            );
             this.getMessenger().sendMessage(commandSender, "command_setflag_config_ignoreAfkPlayers", false,
                     new HewoMsgEntry("<value>", this.plugin.getAPI().ignoreAfkPlayers())
+            );
+            this.getMessenger().sendMessage(commandSender, "command_setflag_config_ignoreVanishPlayers", false,
+                    new HewoMsgEntry("<value>", this.plugin.getAPI().ignoreVanishPlayers())
             );
             this.getMessenger().sendMessage(commandSender, "command_setflag_config_footer", false);
 
@@ -165,6 +173,32 @@ public class SetFlagCommand extends HewoCommand {
                     }
 
                     break;
+                case "night_skip_length":
+
+                    if (arguments.length == 2) {
+
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_nightSkipLength_current",
+                                new HewoMsgEntry("<value>", this.plugin.getAPI().getNightSkipLength() + "s")
+                        );
+
+                        return true;
+
+                    }
+
+
+                    int nightSkipLength = Integer.parseInt(arguments[2]);
+
+                    if(nightSkipLength >= 0) {
+
+                        this.plugin.getAPI().setNightSkipLength(nightSkipLength);
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_nightSkipLength_change",
+                                new HewoMsgEntry("<value>", nightSkipLength + "s")
+                        );
+
+                        return true;
+                    }
+
+                    break;
                 case "ignore_afk_players":
 
                     if (arguments.length == 2) {
@@ -185,6 +219,32 @@ public class SetFlagCommand extends HewoCommand {
                         this.plugin.getAPI().setIgnoreAfkPlayers(Boolean.parseBoolean(ignoreAfkPlayers));
                         this.getMessenger().sendMessage(commandSender, "command_setflag_config_ignoreAfkPlayers_change",
                                 new HewoMsgEntry("<value>", Boolean.parseBoolean(ignoreAfkPlayers))
+                        );
+
+                        return true;
+                    }
+
+                    break;
+                case "ignore_vanish_players":
+
+                    if (arguments.length == 2) {
+
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_ignoreVanishPlayers_current",
+                                new HewoMsgEntry("<value>", this.plugin.getAPI().ignoreAfkPlayers())
+                        );
+
+                        return true;
+
+                    }
+
+
+                    String ignoreVanishPlayers = arguments[2];
+
+                    if(ignoreVanishPlayers.equalsIgnoreCase("true") || ignoreVanishPlayers.equalsIgnoreCase("false")) {
+
+                        this.plugin.getAPI().setIgnoreVanishPlayers(Boolean.parseBoolean(ignoreVanishPlayers));
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_ignoreVanishPlayers_change",
+                                new HewoMsgEntry("<value>", Boolean.parseBoolean(ignoreVanishPlayers))
                         );
 
                         return true;
