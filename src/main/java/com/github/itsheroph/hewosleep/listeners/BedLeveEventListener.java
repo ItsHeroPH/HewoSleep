@@ -37,6 +37,8 @@ public class BedLeveEventListener implements Listener {
         SleepPlayer sleepPlayer = sleepWorld.getPlayer(player);
         List<Player> playerList = sleepWorld.getAllPlayersInWorld();
 
+        if(sleepPlayer == null) return;
+
         sleepPlayer.setSleeping(false);
 
         if(sleepWorld.getTimeState() == TimeState.CAN_SLEEP_NOW) {

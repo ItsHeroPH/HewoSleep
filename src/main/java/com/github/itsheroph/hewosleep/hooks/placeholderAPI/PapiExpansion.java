@@ -4,7 +4,6 @@ import com.github.itsheroph.hewosleep.HewoSleep;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
 import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

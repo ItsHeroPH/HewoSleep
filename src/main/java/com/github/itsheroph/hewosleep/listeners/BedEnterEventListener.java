@@ -52,6 +52,8 @@ public class BedEnterEventListener implements Listener {
         SleepPlayer sleepPlayer = sleepWorld.getPlayer(player);
         List<Player> playerList = sleepWorld.getAllPlayersInWorld();
 
+        if(sleepPlayer == null) return;
+
         if(event.getBedEnterResult() == BedEnterResult.NOT_SAFE) {
 
             if(player.hasPermission("hewosleep.monster")) {
