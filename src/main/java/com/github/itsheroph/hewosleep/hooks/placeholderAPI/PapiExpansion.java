@@ -52,29 +52,27 @@ public class PapiExpansion extends PlaceholderExpansion {
     }
 
     @Override
-    public @Nullable String onRequest(OfflinePlayer offlinePlayer, @NotNull String identifier) {
-
-        if(offlinePlayer == null) return null;
-
-        if(!offlinePlayer.isOnline()) return null;
+    public @Nullable String onPlaceholderRequest(Player player, @NotNull String identifier) {
+        
+        if(player == null) return null;
 
         SleepWorldManager manager = this.plugin.getAPI().getManager();
-        SleepWorld sleepWorld = manager.getSleepWorld((Player) offlinePlayer);
+        SleepWorld sleepWorld = manager.getSleepWorld(player);
 
         if(sleepWorld == null) return null;
 
         identifier = identifier.toLowerCase();
         switch(identifier) {
 
-            case "hs_number_sleepers":
+            case "number_sleepers":
 
                 return "" + sleepWorld.getSleepingPlayers().size();
 
-            case "hs_sleepers_needed":
+            case "sleepers_needed":
 
                 return "" + sleepWorld.getSleepersNeeded();
 
-            case "hs_player_in_world":
+            case "player_in_world":
 
                 return "" + sleepWorld.getAllPlayers().size();
 
