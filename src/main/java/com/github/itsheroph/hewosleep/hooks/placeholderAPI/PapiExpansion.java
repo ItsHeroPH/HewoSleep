@@ -53,7 +53,7 @@ public class PapiExpansion extends PlaceholderExpansion {
 
     @Override
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String identifier) {
-        
+
         if(player == null) return null;
 
         SleepWorldManager manager = this.plugin.getAPI().getManager();

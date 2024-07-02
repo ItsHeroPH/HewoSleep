@@ -51,7 +51,7 @@ public class SleepWorldRunnable extends BukkitRunnable {
         double sleepSpeedup = Math.min(TimeUtil.NIGHT_DURATION / nightSkipDuration, 10000);
         final double speedup;
 
-        if(this.getWorld().getTime() >= TimeUtil.TIME_NIGHT_START) {
+        if(this.getWorld().getTime() >= TimeUtil.BED_TIME_NIGHT) {
 
             speedup = this.isNightSkipping ? sleepSpeedup : nightSpeedup;
 
