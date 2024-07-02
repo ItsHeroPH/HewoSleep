@@ -20,12 +20,13 @@ public class AfkStatusChangeEventListener implements Listener {
     @EventHandler
     public void onPlayerAfkStatusChange(AfkStatusChangeEvent event) {
 
-        IUser user = event.getAffected();
+        IUser user = event.getController();
         SleepPlayer sleepPlayer = this.manager.getSleepPlayer(user.getBase());
 
         if(sleepPlayer != null) {
 
             sleepPlayer.setAfk(event.getValue());
+            if(event.getValue()) sleepPlayer.setAfkPosition(user.getBase().getLocation());
 
         }
 

@@ -94,6 +94,8 @@ public class SleepCommand extends HewoCommand {
 
         if(sleepPlayer.isSleeping()) {
 
+            sleepPlayer.setSleeping(false);
+
             messenger.sendMessage(world.getAllPlayersInWorld(), "command_sleep_wakeUp",
                     new HewoMsgEntry("<player>", player.getName())
             );

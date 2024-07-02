@@ -3,7 +3,14 @@ package com.github.itsheroph.hewosleep.api;
 import com.github.itsheroph.hewosleep.HewoSleep;
 import com.github.itsheroph.hewosleep.hooks.EssentialsHook;
 import com.github.itsheroph.hewosleep.hooks.Hooks;
-import com.github.itsheroph.hewosleep.listeners.*;
+import com.github.itsheroph.hewosleep.listeners.AfkStatusChangeEventListener;
+import com.github.itsheroph.hewosleep.listeners.BedEnterEventListener;
+import com.github.itsheroph.hewosleep.listeners.BedLeveEventListener;
+import com.github.itsheroph.hewosleep.listeners.PlayerJoinEventListener;
+import com.github.itsheroph.hewosleep.listeners.PlayerLeaveEventListener;
+import com.github.itsheroph.hewosleep.listeners.PlayerMoveEventListener;
+import com.github.itsheroph.hewosleep.listeners.TimeSkipEventListener;
+import com.github.itsheroph.hewosleep.listeners.VanishStatusChangeEventListener;
 import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import com.github.itsheroph.hewoutil.messaging.HewoMessenger;
 import org.bukkit.Bukkit;
@@ -152,6 +159,7 @@ public class HewoSleepAPI {
         Bukkit.getPluginManager().registerEvents(new BedLeveEventListener(this.getManager()), this.getPlugin());
         Bukkit.getPluginManager().registerEvents(new PlayerJoinEventListener(this.getManager()), this.getPlugin());
         Bukkit.getPluginManager().registerEvents(new PlayerLeaveEventListener(this.getManager()), this.getPlugin());
+        Bukkit.getPluginManager().registerEvents(new PlayerMoveEventListener(this.getManager()), this.getPlugin());
         Bukkit.getPluginManager().registerEvents(new TimeSkipEventListener(this.getManager()), this.getPlugin());
 
         EssentialsHook essentialsHook = (EssentialsHook) this.getHooks("Essentials");

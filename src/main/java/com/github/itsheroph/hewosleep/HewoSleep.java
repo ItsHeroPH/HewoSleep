@@ -71,6 +71,9 @@ public class HewoSleep extends HewoPlugin {
         // Register sleep world manager
         this.getAPI().registerManager();
 
+        // Register all hooks
+        this.getAPI().registerHooks();
+
         // Register all events
         this.getAPI().registerEvents();
 
@@ -85,9 +88,6 @@ public class HewoSleep extends HewoPlugin {
                     new VersionCommand(this)
                 )
         );
-
-        // Register all hooks
-        this.getAPI().registerHooks();
 
         this.getPluginLogger().log(false,
                 "",

@@ -12,9 +12,10 @@ public class SleepPlayer {
     private final SleepPlayerRunnable runnable;
 
     private boolean afk;
+    private Location position;
+    private Location afkPosition = null;
     private boolean vanished;
     private boolean sleeping;
-    private Location position;
     private long lastBedEntered = 0;
     private long lastMoved = 0;
 
@@ -24,9 +25,9 @@ public class SleepPlayer {
         this.player = player;
         this.runnable = new SleepPlayerRunnable(this);
         this.afk = false;
+        this.position = player.getLocation();
         this.vanished = false;
         this.sleeping = false;
-        this.position = player.getLocation();
 
         this.runnable.runTaskTimer(
                 this.getSleepWorld().getManager().getAPI().getPlugin(),
@@ -116,13 +117,25 @@ public class SleepPlayer {
 
     public void setPosition(Location position) {
 
-        Location lastPosition = this.getPosition();
+        this.position = position;
 
-        if(position.getX() != lastPosition.getX() || position.getZ() != lastPosition.getZ()) {
+    }
 
-            this.position = position;
-            this.lastMoved = System.currentTimeMillis();
-        }
+    public Location getAfkPosition() {
+
+        return this.afkPosition;
+
+    }
+
+    public void setAfkPosition(Location afkPosition) {
+
+        this.afkPosition = afkPosition;
+
+    }
+
+    public void updatePlayerMove() {
+
+        this.lastMoved = System.currentTimeMillis();
 
     }
 

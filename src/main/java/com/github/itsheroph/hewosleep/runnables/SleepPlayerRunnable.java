@@ -24,23 +24,27 @@ public class SleepPlayerRunnable extends BukkitRunnable {
     @Override
     public void run() {
 
-        Player player = this.getPlayer().getPlayer();
         SleepPlayer sleepPlayer = this.getPlayer();
-        Location lastPostion = sleepPlayer.getPosition();
+        Player playerBase = sleepPlayer.getPlayer();
         long lastMoved = sleepPlayer.getLastMoved();
         long currentTime = System.currentTimeMillis();
 
-        sleepPlayer.setPosition(player.getLocation());
+        if(!sleepPlayer.isAfk()) {
 
-        if(player.getLocation().getX() == lastPostion.getX() && player.getLocation().getZ() == lastPostion.getZ()) {
+            if(currentTime - lastMoved >= 5000) {
 
-            if(currentTime - lastMoved >= 180000) sleepPlayer.setAfk(true);
+                sleepPlayer.setAfkPosition(playerBase.getLocation());
+                sleepPlayer.setAfk(true);
+
+            }
 
         } else {
 
-            sleepPlayer.setAfk(false);
+            Location afk = sleepPlayer.getAfkPosition();
+            if(afk == null || afk.distanceSquared(sleepPlayer.getPosition()) > 9) sleepPlayer.setAfk(false);
 
         }
+
 
     }
 }
