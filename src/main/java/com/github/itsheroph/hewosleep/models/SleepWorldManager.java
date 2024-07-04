@@ -20,7 +20,7 @@ public class SleepWorldManager {
 
         for(World world : Bukkit.getWorlds()) {
 
-            if(world.getEnvironment() == Environment.NORMAL) {
+            if(world.getEnvironment() == Environment.NORMAL || world.getEnvironment() == Environment.CUSTOM) {
 
                 SleepWorld sleepWorld = new SleepWorld(this, world);
 
