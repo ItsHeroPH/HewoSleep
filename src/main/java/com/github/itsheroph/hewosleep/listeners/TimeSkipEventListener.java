@@ -61,28 +61,28 @@ public class TimeSkipEventListener implements Listener {
 
                     for(SleepPlayer player : world.getAllPlayers().values()) {
 
-                        if(!world.getBypassConfig().isPlayerIgnored(player)) {
+                        if(player.isSleeping()) {
 
-                            if(player.isSleeping()) {
+                            List<PotionEffect> buffs = world.getBuffConfig().getBuffsList();;
 
-                                List<PotionEffect> buffs = world.getBuffConfig().getBuffsList();;
+                            player.setSleeping(false);
 
-                                player.setSleeping(false);
+                            if(!buffs.isEmpty()) {
 
-                                if(!buffs.isEmpty()) {
+                                player.getPlayer().addPotionEffects(buffs);
+                                messenger.sendMessage(player.getPlayer(), "buff_received",
+                                        new HewoMsgEntry("<effects_list>", world.getBuffConfig().getToString(buffs))
+                                );
 
-                                    player.getPlayer().addPotionEffects(buffs);
-                                    messenger.sendMessage(player.getPlayer(), "buff_received",
-                                            new HewoMsgEntry("<effects_list>", world.getBuffConfig().getToString(buffs))
-                                    );
+                            }
 
-                                }
+                        } else {
 
-                            } else {
+                            List<PotionEffect> deBuffs = world.getBuffConfig().getDeBuffsList();
 
-                                List<PotionEffect> deBuffs = world.getBuffConfig().getDeBuffsList();
+                            if(!deBuffs.isEmpty()) {
 
-                                if(!deBuffs.isEmpty()) {
+                                if(!world.getBypassConfig().isPlayerIgnored(player)) {
 
                                     player.getPlayer().addPotionEffects(deBuffs);
                                     messenger.sendMessage(player.getPlayer(), "deBuff_received",
