@@ -4,6 +4,7 @@ import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
 import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import com.github.itsheroph.hewosleep.util.TimeUtil;
+import org.bukkit.GameRule;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class SleepWorldRunnable extends BukkitRunnable {
@@ -83,6 +84,8 @@ public class SleepWorldRunnable extends BukkitRunnable {
             this.isNightSkipping = false;
 
         }
+
+        if(world.getWorld().getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE) == Boolean.FALSE) return;
 
         double acceleration = this.calculateSpeedup();
         boolean isNightSkipped = this.getWorld().addTime(acceleration);
