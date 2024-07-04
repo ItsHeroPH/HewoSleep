@@ -207,18 +207,6 @@ public class SleepWorld {
 
     }
 
-    private boolean isPlayerAFK(SleepPlayer player) {
-
-        return player.isAfk();
-
-    }
-
-    private boolean isPlayerVanished(SleepPlayer player) {
-
-        return player.isVanished();
-
-    }
-
     private boolean isPlayerSleeping(SleepPlayer player) {
 
         return player.isSleeping();
