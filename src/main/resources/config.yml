@@ -35,18 +35,3 @@ night_length: 500
 # Set this to 0 to skip the night instantly
 # Default: 4
 night_skip_length: 4
-
-# Choose if you want to ignore afk players to be able to skip the night
-# This is mostly used when player is afk but the number of sleepers is not enough
-# If player is not moving more than 3 minutes will be considered as afk player
-# true    - ignoring to count afk players in number of sleepers
-# false   - afk players will not ignore in counting number of sleepers
-# Default: false
-ignore_afk_players: false
-
-# Choose if you want to ignore vanished players to be able to skip the night
-# true    - ignoring to count vanished players in number of sleepers
-# false   - vanished players will not ignore in counting number of players
-# Default: true
-# Note: This is only work when you have Essentials plugin
-ignore_vanish_players: true
