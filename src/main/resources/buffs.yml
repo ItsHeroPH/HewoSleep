@@ -1,0 +1,40 @@
+
+#  _    _ ________          ______   _____ _      ______ ______ _____   __      ____
+# | |  | |  ____\ \        / / __ \ / ____| |    |  ____|  ____|  __ \  \ \    / /_ |
+# | |__| | |__   \ \  /\  / / |  | | (___ | |    | |__  | |__  | |__) |  \ \  / / | |
+# |  __  |  __|   \ \/  \/ /| |  | |\___ \| |    |  __| |  __| |  ___/    \ \/ /  | |
+# | |  | | |____   \  /\  / | |__| |____) | |____| |____| |____| |         \  /   | |
+# |_|  |_|______|   \/  \/   \____/|_____/|______|______|______|_|          \/    |_|
+
+# Configuration guide:
+# time - time in seconds for which effect can be applied (time must not 0)
+# level - the level of the effect (range: 1 - 100)
+# eg.
+# regeneration:
+#   time: 5
+#   level: 1
+
+# Note players that are ignored in bypass.yml will not affect this
+
+# List of potion effects player will obtain if they sleep
+# Leave buffs empty if you don't want to obtain any effect
+buffs:
+  regeneration:
+    time: 5
+    level: 1
+  saturation:
+    time: 5
+    level: 1
+  resistance:
+    time: 10
+    level: 1
+
+# List of potion effects player will obtain if they not sleep
+# Leave deBuffs empty if you don't want to obtain any effect
+deBuffs:
+  weakness:
+    time: 10
+    level: 1
+  mining_fatigue:
+    time: 5
+    level: 1

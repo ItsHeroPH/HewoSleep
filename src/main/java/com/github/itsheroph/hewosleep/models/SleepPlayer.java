@@ -1,6 +1,5 @@
 package com.github.itsheroph.hewosleep.models;
 
-import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
 import com.github.itsheroph.hewosleep.runnables.SleepPlayerRunnable;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -153,9 +152,7 @@ public class SleepPlayer {
 
     public long calculateRemainingCooldown() {
 
-        HewoSleepAPI api = this.getSleepWorld().getManager().getAPI();
-
-        int cooldown = api.getBedEnterDelay();
+        int cooldown = this.getSleepWorld().getConfig().getBedEnterDelay();
         long currentTime = System.currentTimeMillis();
 
         return Math.max(0, (cooldown * 1000L) - (currentTime - this.getLastBedEntered()));

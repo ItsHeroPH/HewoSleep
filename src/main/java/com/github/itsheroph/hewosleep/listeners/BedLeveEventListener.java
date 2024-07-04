@@ -3,12 +3,14 @@ package com.github.itsheroph.hewosleep.listeners;
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
 import com.github.itsheroph.hewosleep.models.SleepPlayer;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
+import com.github.itsheroph.hewosleep.models.SleepWorldConfig;
 import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import com.github.itsheroph.hewosleep.util.TimeState;
 import com.github.itsheroph.hewoutil.messaging.HewoMessenger;
 import com.github.itsheroph.hewoutil.messaging.HewoMsgEntry;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 
@@ -24,16 +26,23 @@ public class BedLeveEventListener implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST
+    )
     public void onPlayerWakeUp(PlayerBedLeaveEvent event) {
 
         HewoSleepAPI api = this.manager.getAPI();
         HewoMessenger messenger = api.getMessenger();
 
-        if(!api.isEnable()) return;
-
         Player player = event.getPlayer();
         SleepWorld sleepWorld = this.manager.getSleepWorld(player);
+
+        if(sleepWorld == null) return;
+
+        SleepWorldConfig worldConfig = sleepWorld.getConfig();
+
+        if(!worldConfig.isEnable()) return;
+
         SleepPlayer sleepPlayer = sleepWorld.getPlayer(player);
         List<Player> playerList = sleepWorld.getAllPlayersInWorld();
 

@@ -1,7 +1,7 @@
-package com.github.itsheroph.hewosleep.hooks;
+package com.github.itsheroph.hewosleep.hooks.placeholderAPI;
 
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
-import com.github.itsheroph.hewosleep.hooks.placeholderAPI.PapiExpansion;
+import com.github.itsheroph.hewosleep.hooks.Hooks;
 
 
 public class PlaceholderAPIHook extends Hooks {

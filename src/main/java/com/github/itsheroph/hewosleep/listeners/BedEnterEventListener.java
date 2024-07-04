@@ -3,6 +3,7 @@ package com.github.itsheroph.hewosleep.listeners;
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
 import com.github.itsheroph.hewosleep.models.SleepPlayer;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
+import com.github.itsheroph.hewosleep.models.SleepWorldConfig;
 import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import com.github.itsheroph.hewoutil.messaging.HewoMessenger;
 import com.github.itsheroph.hewoutil.messaging.HewoMsgEntry;
@@ -42,12 +43,14 @@ public class BedEnterEventListener implements Listener {
         HewoSleepAPI api = this.manager.getAPI();
         HewoMessenger messenger = api.getMessenger();
 
-        if(!api.isEnable()) return;
-
         Player player = event.getPlayer();
         SleepWorld sleepWorld = this.manager.getSleepWorld(player);
 
         if(sleepWorld == null) return;
+
+        SleepWorldConfig worldConfig = sleepWorld.getConfig();
+
+        if(!worldConfig.isEnable()) return;
 
         SleepPlayer sleepPlayer = sleepWorld.getPlayer(player);
         List<Player> playerList = sleepWorld.getAllPlayersInWorld();

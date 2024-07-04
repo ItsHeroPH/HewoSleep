@@ -1,14 +1,15 @@
 package com.github.itsheroph.hewosleep;
 
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
+import com.github.itsheroph.hewosleep.commands.BuffCommand;
+import com.github.itsheroph.hewosleep.commands.BypassCommand;
 import com.github.itsheroph.hewosleep.commands.HelpCommand;
 import com.github.itsheroph.hewosleep.commands.ReloadCommand;
 import com.github.itsheroph.hewosleep.commands.SetFlagCommand;
 import com.github.itsheroph.hewosleep.commands.SleepCommand;
 import com.github.itsheroph.hewosleep.commands.VersionCommand;
-import com.github.itsheroph.hewosleep.hooks.EssentialsHook;
-import com.github.itsheroph.hewosleep.hooks.PlaceholderAPIHook;
-import com.github.itsheroph.hewoutil.configuration.HewoConfig;
+import com.github.itsheroph.hewosleep.hooks.essentials.EssentialsHook;
+import com.github.itsheroph.hewosleep.hooks.placeholderAPI.PlaceholderAPIHook;
 import com.github.itsheroph.hewoutil.messaging.commands.HewoCMDMessenger;
 import com.github.itsheroph.hewoutil.messaging.logging.HewoLogger;
 import com.github.itsheroph.hewoutil.plugin.HewoPlugin;
@@ -34,12 +35,6 @@ public class HewoSleep extends HewoPlugin {
             );
 
         }
-
-        // Load the config.yml file
-        this.getPluginLogger().log("&7&oLoading configuration file...");
-        this.config = new HewoConfig(this, "config.yml");
-        this.getConfig().options().copyDefaults(true);
-        this.saveDefaultConfig();
 
         // Load the Hewo Sleep API
         this.getPluginLogger().log("&7&oInitializing API...");
@@ -81,6 +76,8 @@ public class HewoSleep extends HewoPlugin {
         this.getPluginLogger().log("&7&oRegistering plugin commands...");
         this.getCommand("hewosleep").setExecutor(new HewoCMDHandler(this,
                 new HewoCMDMessenger(this, this.getPluginLogger()),
+                    new BuffCommand(this),
+                    new BypassCommand(this),
                     new HelpCommand(this),
                     new ReloadCommand(this),
                     new SetFlagCommand(this),
@@ -107,11 +104,9 @@ public class HewoSleep extends HewoPlugin {
         // Stop all sleep runnables
         this.getAPI().getManager().stopAllSleepRunnables();
 
-        // Save the config.yml
-        this.getPluginLogger().log("&7&oSaving configuration file...");
-        this.saveConfig();
+        // Save all configurations per world
+        this.getAPI().getManager().saveAllSleepWorldConfig();
 
-        this.config = null;
         this.api = null;
 
     }

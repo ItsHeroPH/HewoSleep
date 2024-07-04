@@ -1,3 +1,11 @@
+
+#  _    _ ________          ______   _____ _      ______ ______ _____   __      ____
+# | |  | |  ____\ \        / / __ \ / ____| |    |  ____|  ____|  __ \  \ \    / /_ |
+# | |__| | |__   \ \  /\  / / |  | | (___ | |    | |__  | |__  | |__) |  \ \  / / | |
+# |  __  |  __|   \ \/  \/ /| |  | |\___ \| |    |  __| |  __| |  ___/    \ \/ /  | |
+# | |  | | |____   \  /\  / | |__| |____) | |____| |____| |____| |         \  /   | |
+# |_|  |_|______|   \/  \/   \____/|_____/|______|______|______|_|          \/    |_|
+
 # Choose if the multiplayer sleep is enabled
 # true    - to enable the multiplayer sleep
 # false   - to disable the multiplayer sleep
@@ -12,6 +20,16 @@ percentage: 100
 # The time in seconds that players need to wait before they can enter the bed again after leaving it
 # Default: 10
 bed_enter_delay: 10
+
+# The duration (in seconds) of the day
+# This allows you to sped up or slow down the day
+# Default: 700
+day_length: 700
+
+# The duration (in seconds) of the night when not skipping
+# This allows you to sped up or slow down the night
+# Default: 500
+night_length: 500
 
 # The duration (in seconds) of the night when skipping
 # Set this to 0 to skip the night instantly

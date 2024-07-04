@@ -1,10 +1,11 @@
-package com.github.itsheroph.hewosleep.listeners;
+package com.github.itsheroph.hewosleep.listeners.essentials;
 
 import com.github.itsheroph.hewosleep.models.SleepPlayer;
 import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import net.ess3.api.IUser;
 import net.ess3.api.events.VanishStatusChangeEvent;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 public class VanishStatusChangeEventListener implements Listener {
@@ -17,7 +18,9 @@ public class VanishStatusChangeEventListener implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST
+    )
     public void onPlayerVanishStatusChange(VanishStatusChangeEvent event) {
 
         IUser user = event.getAffected();

@@ -1,6 +1,7 @@
-package com.github.itsheroph.hewosleep.hooks;
+package com.github.itsheroph.hewosleep.hooks.essentials;
 
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
+import com.github.itsheroph.hewosleep.hooks.Hooks;
 
 public class EssentialsHook extends Hooks {
 

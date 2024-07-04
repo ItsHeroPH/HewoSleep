@@ -13,8 +13,6 @@ public class SleepWorldRunnable extends BukkitRunnable {
     private final SleepWorldManager manager;
 
     private boolean isNightSkipping = false;
-    private static double dayDuration = 14000;
-    private static double nightDuration = 10000;
 
     public SleepWorldRunnable(HewoSleepAPI api, SleepWorld world, SleepWorldManager manager) {
 
@@ -44,7 +42,9 @@ public class SleepWorldRunnable extends BukkitRunnable {
 
     private double calculateSpeedup() {
 
-        double nightSkipDuration = this.getAPI().getNightSkipLength() * 20;
+        double dayDuration = this.getWorld().getConfig().getDayLength() * 20;
+        double nightDuration = this.getWorld().getConfig().getNightLength() * 20;
+        double nightSkipDuration = this.getWorld().getConfig().getNightSkipLength() * 20;
 
         double daySpeedup = Math.min(TimeUtil.DAY_DURATION / dayDuration, 14000);
         double nightSpeedup = Math.min(TimeUtil.NIGHT_DURATION / nightDuration, 10000);
@@ -70,6 +70,8 @@ public class SleepWorldRunnable extends BukkitRunnable {
 
         int sleepersNumber = this.getWorld().getSleepingPlayers().size();
         int sleepersNeeded = this.getWorld().getSleepersNeeded();
+
+        if(!this.getWorld().getConfig().isEnable()) return;
 
         if(sleepersNumber >= sleepersNeeded && sleepersNumber > 0) {
 

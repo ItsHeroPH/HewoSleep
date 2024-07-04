@@ -44,6 +44,16 @@ public class SleepWorldManager {
 
     }
 
+    public void saveAllSleepWorldConfig() {
+
+        for(SleepWorld world : this.getSleepWorldMap().values()) {
+
+            world.getConfig().saveConfig();
+
+        }
+
+    }
+
 
     public void stopAllSleepRunnables() {
 

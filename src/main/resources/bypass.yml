@@ -1,0 +1,22 @@
+
+#  _    _ ________          ______   _____ _      ______ ______ _____   __      ____
+# | |  | |  ____\ \        / / __ \ / ____| |    |  ____|  ____|  __ \  \ \    / /_ |
+# | |__| | |__   \ \  /\  / / |  | | (___ | |    | |__  | |__  | |__) |  \ \  / / | |
+# |  __  |  __|   \ \/  \/ /| |  | |\___ \| |    |  __| |  __| |  ___/    \ \/ /  | |
+# | |  | | |____   \  /\  / | |__| |____) | |____| |____| |____| |         \  /   | |
+# |_|  |_|______|   \/  \/   \____/|_____/|______|______|______|_|          \/    |_|
+
+# Here you can choose whether you want or not to ignore players
+
+ignore_survival: false
+ignore_creative: false
+ignore_adventure: false
+ignore_spectator: false
+
+# With Essentials support, player uses /afk can be ignored
+# Without Essentials support, player afk for more than 3 minutes can be ignored
+ignore_afk_player: true
+
+# With Essentials support, player uses /vanish can be ignored
+# Without Essentials support, this configuration will be ignored
+ignore_vanish_player: true

@@ -3,6 +3,7 @@ package com.github.itsheroph.hewosleep.commands;
 import com.github.itsheroph.hewosleep.HewoSleep;
 import com.github.itsheroph.hewosleep.models.SleepPlayer;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
+import com.github.itsheroph.hewosleep.models.SleepWorldConfig;
 import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import com.github.itsheroph.hewosleep.util.TimeUtil;
 import com.github.itsheroph.hewoutil.messaging.HewoMessenger;
@@ -65,20 +66,23 @@ public class SleepCommand extends HewoCommand {
         Player player = (Player) commandSender;
         SleepWorldManager manager = this.plugin.getAPI().getManager();
         SleepWorld world = manager.getSleepWorld(player);
-        SleepPlayer sleepPlayer = world.getPlayer(player);
-        HewoMessenger messenger = manager.getAPI().getMessenger();
 
-        if(!this.plugin.getAPI().isEnable()) {
+        if(world == null) {
 
-            this.getMessenger().sendMessage(commandSender, "command_sleep_notEnable", true);
+            this.getMessenger().sendMessage(commandSender, "command_sleep_worldNotFound", true);
 
             return true;
 
         }
 
-        if(world == null) {
+        SleepWorldConfig worldConfig = world.getConfig();
 
-            this.getMessenger().sendMessage(commandSender, "command_sleep_worldNotFound", true);
+        SleepPlayer sleepPlayer = world.getPlayer(player);
+        HewoMessenger messenger = manager.getAPI().getMessenger();
+
+        if(!worldConfig.isEnable()) {
+
+            this.getMessenger().sendMessage(commandSender, "command_sleep_notEnable", true);
 
             return true;
 

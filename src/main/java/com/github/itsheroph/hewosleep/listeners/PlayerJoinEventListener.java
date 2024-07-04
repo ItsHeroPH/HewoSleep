@@ -4,6 +4,7 @@ import com.github.itsheroph.hewosleep.models.SleepWorld;
 import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -17,7 +18,9 @@ public class PlayerJoinEventListener implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(
+            priority = EventPriority.HIGHEST
+    )
     public void onPlayerJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();

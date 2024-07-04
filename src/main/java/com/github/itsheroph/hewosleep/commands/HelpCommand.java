@@ -35,6 +35,8 @@ public class HelpCommand extends HewoCommand {
     public List<String> getOptions() {
 
         return List.of(
+                "buff",
+                "bypass",
                 "help",
                 "reload",
                 "setflag",
@@ -64,6 +66,8 @@ public class HelpCommand extends HewoCommand {
         if(arguments.length <= 1) {
 
             this.getMessenger().sendMessage(commandSender, "command_help_noArgs_header", false);
+            this.getMessenger().sendMessage(commandSender, "command_help_noArgs_buff", false);
+            this.getMessenger().sendMessage(commandSender, "command_help_noArgs_bypass", false);
             this.getMessenger().sendMessage(commandSender, "command_help_noArgs_help", false);
             this.getMessenger().sendMessage(commandSender, "command_help_noArgs_reload", false);
             this.getMessenger().sendMessage(commandSender, "command_help_noArgs_setflag", false);
@@ -76,7 +80,16 @@ public class HelpCommand extends HewoCommand {
         }
 
         switch(arguments[1]) {
+            case "buff":
 
+                this.getMessenger().sendMessage(commandSender, "command_buff_usage", true);
+
+                return true;
+            case "bypass":
+
+                this.getMessenger().sendMessage(commandSender, "command_bypass_usage", true);
+
+                return true;
             case "help":
 
                 this.getMessenger().sendMessage(commandSender, "command_help_usage", true);

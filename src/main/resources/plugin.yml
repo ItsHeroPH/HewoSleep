@@ -15,6 +15,8 @@ permissions:
     description: 'Allows the user to use the management commands'
     default: op
     children:
+      hewosleep.command.buff: true
+      hewosleep.command.bypass: true
       hewosleep.command.help: true
       hewosleep.command.reload: true
       hewosleep.command.setflag: true
@@ -24,11 +26,19 @@ permissions:
     description: 'Default permission of the user'
     default: op
     children:
+      hewosleep.command.buff: true
+      hewosleep.command.bypass: false
       hewosleep.command.help: true
       hewosleep.command.reload: false
       hewosleep.command.setflag: false
       hewosleep.command.sleep: false
       hewosleep.command.version: true
+  hewosleep.command.buff:
+    description: 'Allows the user to use the buff command'
+    default: not op
+  hewosleep.command.bypass:
+    description: 'Allows the user to use the bypass command'
+    default: op
   hewosleep.command.help:
     description: 'Allows the user to use the help command'
     default: not op
