@@ -1,9 +1,9 @@
 package com.github.itsheroph.hewosleep.hooks.essentials;
 
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
-import com.github.itsheroph.hewosleep.hooks.Hooks;
+import com.github.itsheroph.hewosleep.hooks.PluginHook;
 
-public class EssentialsHook extends Hooks {
+public class EssentialsHook extends PluginHook {
 
     public EssentialsHook(HewoSleepAPI api) {
 
@@ -30,7 +30,7 @@ public class EssentialsHook extends Hooks {
 
         } catch (ClassNotFoundException e) {
 
-            this.getAPI().getPlugin().getPluginLogger().log("&c&oYour Essentials version is incompatible with this version of HewoSleep");
+            this.getAPI().getPlugin().getPluginLogger().error("Your Essentials version is incompatible with this version of HewoSleep");
             this.setEnable(false);
 
         }

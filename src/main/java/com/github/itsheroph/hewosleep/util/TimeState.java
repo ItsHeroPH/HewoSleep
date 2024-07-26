@@ -3,6 +3,7 @@ package com.github.itsheroph.hewosleep.util;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
 
 public enum TimeState {
+
     CANNOT_SLEEP,
     CAN_SLEEP_SOON,
     CAN_SLEEP_NOW;
@@ -27,4 +28,5 @@ public enum TimeState {
 
         }
     }
+
 }

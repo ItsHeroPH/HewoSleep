@@ -1,53 +1,55 @@
 package com.github.itsheroph.hewosleep.models;
 
+import com.github.itsheroph.hewosleep.models.configuration.BuffConfig;
+import com.github.itsheroph.hewosleep.models.configuration.BypassConfig;
+import com.github.itsheroph.hewosleep.models.configuration.WorldConfig;
+import com.github.itsheroph.hewosleep.models.managers.WorldManager;
 import com.github.itsheroph.hewosleep.runnables.SleepWorldRunnable;
 import com.github.itsheroph.hewosleep.util.TimeState;
 import com.github.itsheroph.hewosleep.util.TimeUtil;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SleepWorld {
 
-    private final SleepWorldManager manager;
-    private final World world;
+    private final WorldManager manager;
+    private final World base;
     private final SleepWorldRunnable runnable;
 
-    private final SleepWorldConfig config;
-    private final SleepWorldBuffConfig buffConfig;
-    private final SleepWorldBypassConfig bypassConfig;
+    private final WorldConfig worldConfig;
+    private final BypassConfig bypassConfig;
+    private final BuffConfig buffConfig;
 
-    private final HashMap<Player, SleepPlayer> players;
     private TimeState timeState;
 
-    public SleepWorld(SleepWorldManager manager, World world) {
+    public SleepWorld(WorldManager manager, World world) {
 
         this.manager = manager;
-        this.world = world;
-        this.runnable = new SleepWorldRunnable(manager.getAPI(), this, manager);
-        this.config = new SleepWorldConfig(this.getManager().getAPI().getPlugin(), this);
-        this.buffConfig = new SleepWorldBuffConfig(this.getManager().getAPI().getPlugin(), this);
-        this.bypassConfig = new SleepWorldBypassConfig(this.getManager().getAPI().getPlugin(), this);
-
-        this.players = new HashMap<>();
+        this.base = world;
         this.timeState = TimeState.getState(this);
 
-        for(Player player : this.getAllPlayersInWorld()) {
+        this.worldConfig = new WorldConfig(this);
+        this.bypassConfig = new BypassConfig(this);
+        this.buffConfig = new BuffConfig(this);
 
-            this.addPlayer(player);
+        this.runnable = new SleepWorldRunnable(this);
 
-        }
-
-        this.runnable.runTaskTimer(manager.getAPI().getPlugin(), 1L, 1L);
+        this.getRunnable().runTaskTimer(this.getManager().getAPI().getPlugin(), 1L, 1L);
 
     }
 
-    public SleepWorldManager getManager() {
+    public WorldManager getManager() {
 
         return this.manager;
+
+    }
+
+    public World getBase() {
+
+        return this.base;
 
     }
 
@@ -64,48 +66,85 @@ public class SleepWorld {
             this.getRunnable().cancel();
 
         }
-    }
-
-    public World getWorld() {
-
-        return this.world;
 
     }
 
-    public SleepWorldConfig getConfig() {
+    public WorldConfig getWorldConfig() {
 
-        return this.config;
-
-    }
-
-    public SleepWorldBuffConfig getBuffConfig() {
-
-        return this.buffConfig;
+        return this.worldConfig;
 
     }
 
-    public SleepWorldBypassConfig getBypassConfig() {
+    public BypassConfig getBypassConfig() {
 
         return this.bypassConfig;
 
     }
 
+    public BuffConfig getBuffConfig() {
+
+        return this.buffConfig;
+
+    }
+
+    public List<SleepUser> getUsers() {
+
+        return this.getManager().getAPI().getUserManager().getUsers()
+                .stream().filter(player -> player.getWorld() == this)
+                .collect(Collectors.toList());
+
+    }
+
+    public List<SleepUser> getSleepingUsers() {
+
+        return this.getUsers().stream()
+                .filter(SleepUser::isSleeping)
+                .collect(Collectors.toList());
+
+    }
+
+    public List<SleepUser> getValidUsers() {
+
+        return this.getUsers().stream()
+                .filter(user -> !user.isIgnored())
+                .collect(Collectors.toList());
+
+    }
+
+    public int getSleepersNeeded() {
+
+        int percentage = this.getWorldConfig().getPercentage();
+        int numPlayers = this.getValidUsers().size();
+
+        return Math.max(Math.round((float) (numPlayers * percentage) / 100), 1);
+
+    }
+
+
+    public List<Player> getPlayers() {
+
+        return this.getUsers().stream()
+                .map(SleepUser::getBase)
+                .collect(Collectors.toList());
+
+    }
+
     public void clearWeather() {
 
-        this.getWorld().setThundering(false);
-        this.getWorld().setStorm(false);
+        this.getBase().setThundering(false);
+        this.getBase().setStorm(false);
 
     }
 
     public long getTime() {
 
-        return this.getWorld().getTime();
+        return this.getBase().getTime();
 
     }
 
     public void setTime(long time) {
 
-        this.getWorld().setTime(time);
+        this.getBase().setTime(time);
 
     }
 
@@ -129,66 +168,6 @@ public class SleepWorld {
 
     }
 
-    public HashMap<Player, SleepPlayer> getAllPlayers() {
-
-        return this.players;
-
-    }
-
-    public List<SleepPlayer> getSleepingPlayers() {
-
-        return this.getAllPlayers().values().stream()
-                .filter(this::isPlayerSleeping)
-                .collect(Collectors.toList());
-
-    }
-
-    public List<Player> getAllPlayersInWorld() {
-
-        return this.getWorld().getPlayers().stream()
-                .filter(this::isInValidEnvironment)
-                .collect(Collectors.toList());
-
-    }
-
-    public SleepPlayer getPlayer(Player player) {
-
-        return this.getAllPlayers().getOrDefault(player, null);
-
-    }
-
-    public void addPlayer(Player player) {
-
-        this.getAllPlayers().put(player, new SleepPlayer(this, player));
-
-    }
-
-    public void removePlayer(Player player) {
-
-        if(this.getPlayer(player) != null) {
-
-            this.getPlayer(player).stopRunnable();
-
-        }
-
-        this.getAllPlayers().remove(player);
-
-    }
-
-    public int getSleepersNeeded() {
-
-        int percentage = this.getConfig().getPercentage();
-        int numPlayersTotal = this.getAllPlayers().size();
-        int numPlayersIgnore = this.getAllPlayers().values().stream()
-                .filter(this.getBypassConfig()::isPlayerIgnored)
-                .collect(Collectors.toList()).size();
-
-        int numPlayers = numPlayersTotal - numPlayersIgnore;
-
-        return Math.max(Math.round((float) (numPlayers * percentage) / 100), 1);
-
-    }
-
     public TimeState getTimeState() {
 
         return this.timeState;
@@ -198,18 +177,6 @@ public class SleepWorld {
     public void setTimeState(TimeState timeState) {
 
         this.timeState = timeState;
-
-    }
-
-    private boolean isInValidEnvironment(Player player) {
-
-        return player.getWorld().getEnvironment() == World.Environment.NORMAL;
-
-    }
-
-    private boolean isPlayerSleeping(SleepPlayer player) {
-
-        return player.isSleeping();
 
     }
 }

@@ -1,0 +1,158 @@
+#
+#  _   _ _______        _____  ____  _     _____ _____ ____   __     ______
+# | | | | ____\ \      / / _ \/ ___|| |   | ____| ____|  _ \  \ \   / /___ \
+# | |_| |  _|  \ \ /\ / / | | \___ \| |   |  _| |  _| | |_) |  \ \ / /  __) |
+# |  _  | |___  \ V  V /| |_| |___) | |___| |___| |___|  __/    \ V /  / __/
+# |_| |_|_____|  \_/\_/  \___/|____/|_____|_____|_____|_|        \_/  |_____|
+#
+
+# Here you can customize the messages of the plugin
+
+# Configuration Guide:
+# To use color codes, just use '&' symbol
+# You can disable any messages by setting the message to "ignore" or ""
+# example:
+#   command_unknown: "" or command_unknown: "ignore"
+
+#----------------#
+# Message Prefix #
+#----------------#
+
+# Here you can change the format of the prefix or just disable it.
+# This is always shown in the messages
+# example message with prefix:
+#   [HS2] your message is here.
+message_prefix_format: "&3[&6<prefix>&3]"
+
+#-------------------#
+# Sleeping Messages #
+#-------------------#
+
+# Reminds player that it almost bedtime
+can_sleep_soon: "&3Players! it almost bedtime..."
+
+# Remind the players to sleep
+can_sleep_now: "&3Players! its time to sleep..."
+
+# if there is not enough player sleeping
+not_enough_player_sleeping: "&7There is <number_needed> more player need to sleep to skip the night/storm."
+
+# If there is enough player sleeping
+enough_player_sleeping: "&3Skipping the night. Sweet dreams."
+
+# sends when it is morning time
+morning_message: "&3Good Morning &6<user>. &3Have a great day!"
+
+#--------------#
+# Bed Messages #
+#--------------#
+
+# If player is trying to enter their bed with nearby monsters.
+bed_enter_not_safe_allow: "&7Player &e<user> &7was allowed to enter their bed with nearby monster."
+bed_enter_not_safe_deny: "&cPlayer &7<user> &cfailed to enter their bed with nearby monster."
+
+# if player is trying to enter their bed quickly after they left it.
+bed_enter_spam: "&7You have to wait &c&l<cooldown> &7before you can enter the bed again."
+
+bed_enter_failed: "&7Failed to enter the bed: &c&l<reason>."
+bed_enter_success: "&3Player &6<user> &3entered their bed."
+
+bed_leave_message: "&7Player &4<user> &7left their bed."
+
+#----------------#
+# Buffs Messages #
+#----------------#
+
+# If player receive a buffs
+buff_received: "&3You feel well and received &6<buff_list>"
+
+# If player receive a debuffs
+debuff_received: "&7You feel tired and received &c<debuff_list>"
+
+#------------------------#
+# Command Error Messages #
+#------------------------#
+
+# if command sender is trying to execute a command that not allowed to.
+command_cant_execute: "&c&oYou can't execute that command."
+
+# if command sender is trying to execute a command that don't have permission.
+command_no_permission: "&c&oYou don't have enough permission to use this command."
+
+# if command sender is trying to execute a command that don't exist.
+command_unknown: "&c&oCan't find that command."
+
+#-----------------------#
+# Command Buff Messages #
+#-----------------------#
+command_buff_usage: "&6/hs buff &r- See the buff list on your world."
+command_buff_world_not_found: "&c&oYou can't view the buff list in this world."
+
+#-------------------------#
+# Command Bypass Messages #
+#-------------------------#
+command_bypass_usage: "&6/hs bypass &r- Configure the bypass config."
+command_bypass_world_not_found: "&c&oYou can't edit the bypass config in this world."
+
+#-----------------------#
+# Command Help Messages #
+#-----------------------#
+command_help_usage: "&6/hs help <command_name> &r- Get the information of the command."
+command_help_header: "&3----====={Command List}=====----"
+command_help_buff: "&6/hs buff      &r- See the buff list on your world."
+command_help_bypass: "&6/hs bypass    &r- Configure the bypass config."
+command_help_help: "&6/hs help      &r- See the command list."
+command_help_reload: "&6/hs reload    &r- Reload the plugin."
+command_help_setflag: "&6/hs setflag   &r- Configure the setting per world."
+command_help_sleep: "&6/hs sleep     &r- Skip the night without going to the bed."
+command_help_version: "&6/hs version   &r- See the version of the plugin."
+command_help_footer: "&3----====={HewoSleep V2}=====----"
+
+#-------------------------#
+# Command Reload Messages #
+#-------------------------#
+command_reload_usage: "&6/hs reload &r- Reload the plugin without reloading the server."
+command_reload_confirmation: "&7Are you sure you want to reload? To confirm type &3/hs reload confirm."
+command_reload_success: "&2Successfully reloaded! (took <time>)."
+
+#--------------------------#
+# Command SetFlag Messages #
+#--------------------------#
+command_setflag_usage: "&6/hs setflag <flags> <value> &r- Custiomize the configuration in world"
+command_setflag_world_not_found: "&c&oYou can only change the config if you are in overworld"
+command_setflag_flag_list: "&6Possible flags are: &7<flag_list>"
+command_setflag_config_header: "&3&l---======{Configuration}======---"
+command_setflag_config_enable: "&6Enable: &r<value>"
+command_setflag_config_percentage: "&6Sleeping Percentage: &r<value>"
+command_setflag_config_bed_enter_delay: "&6Bed Enter Delay: &r<value>"
+command_setflag_config_day_length: "&6Day Length: &r<value>"
+command_setflag_config_night_length: "&6Night Length: &r<value>"
+command_setflag_config_night_skip_length: "&6Night Skip Length: &r<value>"
+command_setflag_config_footer: "&3&l---======{HewoSleep V2}======---"
+command_setflag_config_enable_current: "&7Enable is currently set to: &6<value>"
+command_setflag_config_enable_change: "&7Enable is now set to: &6<value>"
+command_setflag_config_percentage_current: "&7Sleeping Percentage is currently set to: &6<value>"
+command_setflag_config_percentage_change: "&7Sleeping Percentage is now set to: &6<value>"
+command_setflag_config_bed_enter_delay_current: "&7Bed enter delay is currently set to: &6<value>"
+command_setflag_config_bed_enter_delay_change: "&7Bed enter delay is now set to: &6<value>"
+command_setflag_config_day_length_current: "&7Day length is currently set to: &6<value>"
+command_setflag_config_day_length_change: "&7Day length is now set to: &6<value>"
+command_setflag_config_night_length_current: "&7Night length is currently set to: &6<value>"
+command_setflag_config_night_length_change: "&7Night length is now set to: &6<value>"
+command_setflag_config_night_skip_length_current: "&7Night skip length is currently set to: &6<value>"
+command_setflag_config_night_skip_length_change: "&7Night skip length is now set to: &6<value>"
+
+#------------------------#
+# Command Sleep Messages #
+#------------------------#
+command_sleep_usage: "&6/hs sleep &r- Skip the night without going to the bed."
+command_sleep_world_not_found: "&c&oSleep is disabled on this world."
+command_sleep_day_time: "&c&oYou can't sleep in day time."
+command_sleep_wake_up: "&7Player &e<user> &7wake up."
+command_sleep_sleeping: "&7Player &e<user> &7is now sleeping"
+
+#--------------------------#
+# Command Version Messages #
+#--------------------------#
+command_version_usage: "&6/hs version &r- Show the current version of the plugin using."
+command_version_message: "&3You are using &6<version>."

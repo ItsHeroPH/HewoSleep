@@ -1,10 +1,12 @@
 package com.github.itsheroph.hewosleep.commands;
 
 import com.github.itsheroph.hewosleep.HewoSleep;
-import com.github.itsheroph.hewosleep.models.SleepWorld;
-import com.github.itsheroph.hewoutil.messaging.HewoMsgEntry;
-import com.github.itsheroph.hewoutil.messaging.commands.HewoCMDMessenger;
-import com.github.itsheroph.hewoutil.plugin.commands.HewoCommand;
+import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
+import com.github.itsheroph.hewosleep.models.SleepUser;
+import com.github.itsheroph.hewosleep.models.menu.bypass.BypassMenu;
+import com.github.itsheroph.hewosleep.util.Permissions;
+import com.github.itsheroph.hewoutil.gui.HewoMenuManager;
+import com.github.itsheroph.hewoutil.plugin.command.HewoCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -12,245 +14,72 @@ import java.util.List;
 
 public class BypassCommand extends HewoCommand {
 
-    private final HewoSleep plugin;
+    private final HewoSleepAPI api;
 
     public BypassCommand(HewoSleep plugin) {
 
-        super(new HewoCMDMessenger(plugin, plugin.getPluginLogger(), "HewoSleepV1"));
+        super(plugin.getLangConfig().getCmdMessenger());
 
-        this.plugin = plugin;
+        this.api = plugin.getAPI();
 
     }
 
-
     @Override
     public String getName() {
+
         return "bypass";
+
     }
 
     @Override
     public List<String> getAliases() {
+
         return List.of();
+
     }
 
     @Override
-    public List<String> getOptions() {
-        return List.of(
-                "ignore_survival",
-                "ignore_creative",
-                "ignore_adventure",
-                "ignore_spectator",
-                "ignore_afk_player",
-                "ignore_vanish_player"
-        );
+    public List<String> getOptions(CommandSender commandSender, String[] strings) {
+
+        return List.of();
+
     }
 
     @Override
     public String getPermission() {
-        return "hewosleep.command.bypass";
+
+        return Permissions.COMMAND_BYPASS;
+
     }
 
     @Override
     public boolean mayExecute(CommandSender commandSender) {
 
-        return (commandSender instanceof Player);
+        return Permissions.playerExecuteOnly(commandSender);
 
     }
 
     @Override
-    public boolean execute(CommandSender commandSender, String[] arguments) {
+    public boolean execute(CommandSender commandSender, String[] strings) {
 
-        Player player = (Player) commandSender;
-        SleepWorld world = this.plugin.getAPI().getManager().getSleepWorld(player);
+        SleepUser user = this.getAPI().getUserManager().getUser((Player) commandSender);
 
-        if(world == null) {
+        if(user == null) {
 
             this.getMessenger().sendMessage(commandSender, "command_bypass_world_not_found", true);
-
             return true;
 
         }
 
-        if(arguments.length == 1) {
-
-            this.getMessenger().sendMessage(commandSender, "command_bypass_header", false);
-            this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_survival", false,
-                    new HewoMsgEntry("<value>", world.getBypassConfig().ignore_survival())
-            );
-            this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_creative", false,
-                    new HewoMsgEntry("<value>", world.getBypassConfig().ignore_creative())
-            );
-            this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_adventure", false,
-                    new HewoMsgEntry("<value>", world.getBypassConfig().ignore_adventure())
-            );
-            this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_spectator", false,
-                    new HewoMsgEntry("<value>", world.getBypassConfig().ignore_spectator())
-            );
-            this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_afk_player", false,
-                    new HewoMsgEntry("<value>", world.getBypassConfig().ignore_afk_player())
-            );
-            this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_vanish_player", false,
-                    new HewoMsgEntry("<value>", world.getBypassConfig().ignore_vanish_player())
-            );
-            this.getMessenger().sendMessage(commandSender, "command_bypass_footer", false);
-
-            return true;
-
-        }
-
-        String config = arguments[1];
-
-        switch(config) {
-            case "ignore_survival":
-
-                if(arguments.length == 2) {
-
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_survival_current",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_survival())
-                    );
-
-                    return true;
-
-                }
-
-                if(arguments[2].equals("true") || arguments[2].equals("false")) {
-
-                    world.getBypassConfig().setIgnore_survival(Boolean.parseBoolean(arguments[2]));
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_survival_change",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_survival())
-                    );
-
-                    return true;
-                }
-
-                break;
-            case "ignore_creative":
-
-                if(arguments.length == 2) {
-
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_creative_current",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_creative())
-                    );
-
-                    return true;
-
-                }
-
-                if(arguments[2].equals("true") || arguments[2].equals("false")) {
-
-                    world.getBypassConfig().setIgnore_creative(Boolean.parseBoolean(arguments[2]));
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_creative_change",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_creative())
-                    );
-
-                    return true;
-                }
-
-                break;
-            case "ignore_adventure":
-
-                if(arguments.length == 2) {
-
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_adventure_current",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_adventure())
-                    );
-
-                    return true;
-
-                }
-
-                if(arguments[2].equals("true") || arguments[2].equals("false")) {
-
-                    world.getBypassConfig().setIgnore_adventure(Boolean.parseBoolean(arguments[2]));
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_adventure_change",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_adventure())
-                    );
-
-                    return true;
-                }
-
-                break;
-            case "ignore_spectator":
-
-                if(arguments.length == 2) {
-
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_spectator_current",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_spectator())
-                    );
-
-                    return true;
-
-                }
-
-                if(arguments[2].equals("true") || arguments[2].equals("false")) {
-
-                    world.getBypassConfig().setIgnore_spectator(Boolean.parseBoolean(arguments[2]));
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_spectator_change",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_spectator())
-                    );
-
-                    return true;
-                }
-
-                break;
-            case "ignore_afk_player":
-
-                if(arguments.length == 2) {
-
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_afk_player_current",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_afk_player())
-                    );
-
-                    return true;
-
-                }
-
-                if(arguments[2].equals("true") || arguments[2].equals("false")) {
-
-                    world.getBypassConfig().setIgnore_afk_player(Boolean.parseBoolean(arguments[2]));
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_afk_player_change",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_afk_player())
-                    );
-
-                    return true;
-                }
-
-                break;
-            case "ignore_vanish_player":
-
-                if(arguments.length == 2) {
-
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_vanish_player_current",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_vanish_player())
-                    );
-
-                    return true;
-
-                }
-
-                if(arguments[2].equals("true") || arguments[2].equals("false")) {
-
-                    world.getBypassConfig().setIgnore_vanish_player(Boolean.parseBoolean(arguments[2]));
-                    this.getMessenger().sendMessage(commandSender, "command_bypass_ignore_vanish_player_change",
-                            new HewoMsgEntry("<value>", world.getBypassConfig().ignore_vanish_player())
-                    );
-
-                    return true;
-                }
-
-                break;
-            default:
-
-                this.getMessenger().sendMessage(commandSender, "command_bypass_config_list",
-                        new HewoMsgEntry("<bypass_list>", this.getOptions().toString().replace("[", "").replace("]", ""))
-                );
-
-                return true;
-
-        }
-
-        this.getMessenger().sendMessage(commandSender, "command_bypass_usage",true);
+        new BypassMenu(HewoMenuManager.getPlayer(user.getBase()), user).open();
 
         return true;
+
+    }
+
+    private HewoSleepAPI getAPI() {
+
+        return this.api;
+
     }
 }

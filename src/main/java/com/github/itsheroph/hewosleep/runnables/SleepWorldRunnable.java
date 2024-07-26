@@ -1,37 +1,19 @@
 package com.github.itsheroph.hewosleep.runnables;
 
-import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
-import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import com.github.itsheroph.hewosleep.util.TimeUtil;
 import org.bukkit.GameRule;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class SleepWorldRunnable extends BukkitRunnable {
 
-    private final HewoSleepAPI api;
     private final SleepWorld world;
-    private final SleepWorldManager manager;
 
     private boolean isNightSkipping = false;
 
-    public SleepWorldRunnable(HewoSleepAPI api, SleepWorld world, SleepWorldManager manager) {
+    public SleepWorldRunnable(SleepWorld world) {
 
-        this.api = api;
         this.world = world;
-        this.manager = manager;
-
-    }
-
-    public HewoSleepAPI getAPI() {
-
-        return this.api;
-
-    }
-
-    public SleepWorldManager getManager() {
-
-        return this.manager;
 
     }
 
@@ -43,9 +25,9 @@ public class SleepWorldRunnable extends BukkitRunnable {
 
     private double calculateSpeedup() {
 
-        double dayDuration = this.getWorld().getConfig().getDayLength() * 20;
-        double nightDuration = this.getWorld().getConfig().getNightLength() * 20;
-        double nightSkipDuration = this.getWorld().getConfig().getNightSkipLength() * 20;
+        double dayDuration = this.getWorld().getWorldConfig().getDayDuration() * 20;
+        double nightDuration = this.getWorld().getWorldConfig().getNightDuration() * 20;
+        double nightSkipDuration = this.getWorld().getWorldConfig().getNightSkippingDuration() * 20;
 
         double daySpeedup = Math.min(TimeUtil.DAY_DURATION / dayDuration, 14000);
         double nightSpeedup = Math.min(TimeUtil.NIGHT_DURATION / nightDuration, 10000);
@@ -69,10 +51,10 @@ public class SleepWorldRunnable extends BukkitRunnable {
     @Override
     public void run() {
 
-        int sleepersNumber = this.getWorld().getSleepingPlayers().size();
+        int sleepersNumber = this.getWorld().getSleepingUsers().size();
         int sleepersNeeded = this.getWorld().getSleepersNeeded();
 
-        if(!this.getWorld().getConfig().isEnable()) return;
+        if(!this.getWorld().getWorldConfig().isEnable()) return;
 
         if(sleepersNumber >= sleepersNeeded && sleepersNumber > 0) {
 
@@ -85,7 +67,7 @@ public class SleepWorldRunnable extends BukkitRunnable {
 
         }
 
-        if(world.getWorld().getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE) == Boolean.FALSE) return;
+        if(this.getWorld().getBase().getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE) == Boolean.FALSE) return;
 
         double acceleration = this.calculateSpeedup();
         boolean isNightSkipped = this.getWorld().addTime(acceleration);
@@ -95,5 +77,6 @@ public class SleepWorldRunnable extends BukkitRunnable {
             this.isNightSkipping = false;
 
         }
+
     }
 }

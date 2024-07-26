@@ -1,0 +1,158 @@
+#
+#  _   _ _______        _____  ____  _     _____ _____ ____   __     ______
+# | | | | ____\ \      / / _ \/ ___|| |   | ____| ____|  _ \  \ \   / /___ \
+# | |_| |  _|  \ \ /\ / / | | \___ \| |   |  _| |  _| | |_) |  \ \ / /  __) |
+# |  _  | |___  \ V  V /| |_| |___) | |___| |___| |___|  __/    \ V /  / __/
+# |_| |_|_____|  \_/\_/  \___/|____/|_____|_____|_____|_|        \_/  |_____|
+#
+
+# Here you can customize the messages of the plugin
+
+# Configuration Guide:
+# To use color codes, just use '&' symbol
+# You can disable any messages by setting the message to "ignore" or ""
+# example:
+#   command_unknown: "" or command_unknown: "ignore"
+
+#----------------#
+# Message Prefix #
+#----------------#
+
+# Here you can change the format of the prefix or just disable it.
+# This is always shown in the messages
+# example message with prefix:
+#   [HS2] your message is here.
+message_prefix_format: "&3[&6<prefix>&3]"
+
+#-------------------#
+# Sleeping Messages #
+#-------------------#
+
+# Reminds player that it almost bedtime
+can_sleep_soon: "&3Mga manlalaro! malapit na ang oras ng pagtulog..."
+
+# Remind the players to sleep
+can_sleep_now: "&3Mga manlalaro! oras na para matulog..."
+
+# if there is not enough player sleeping
+not_enough_player_sleeping: "&7May <number_needed> pang manlalaro na kailangang matulog para laktawan ang gabi/bagyo."
+
+# If there is enough player sleeping
+enough_player_sleeping: "&3Nilaktawan ang gabi. Matamis na panaginip."
+
+# sends when it is morning time
+morning_message: "&3Magandang Umaga &6<user>. &3Magandang araw!"
+
+#--------------#
+# Bed Messages #
+#--------------#
+
+# If player is trying to enter their bed with nearby monsters.
+bed_enter_not_safe_allow: "&7Pinayagan ang manlalaro na &e<user> &7na pumasok sa kanilang kama kasama ang kalapit na halimaw."
+bed_enter_not_safe_deny: "&cNabigo ang manlalaro na &7<user> &cna pumasok sa kanilang kama kasama ang kalapit na halimaw."
+
+# if player is trying to enter their bed quickly after they left it.
+bed_enter_spam: "&7Kailangan mong maghintay ng &c&l<cooldown> &7bago ka makapasok muli sa kama."
+
+bed_enter_failed: "&7Nabigong pumasok sa kama: &c&l<reason>."
+bed_enter_success: "&3Pumasok ang manlalaro &6<user> &3sa kanilang kama."
+
+bed_leave_message: "&7Umalis ang manlalaro &4<user> &7sa kanilang kama."
+
+#----------------#
+# Buffs Messages #
+#----------------#
+
+# If player receive a buffs
+buff_received: "&3Mabuti ang pakiramdam mo at natanggap mo &6<buff_list>"
+
+# If player receive a debuffs
+debuff_received: "&7Nakaramdam ka ng pagod at natanggap &c<debuff_list>"
+
+#------------------------#
+# Command Error Messages #
+#------------------------#
+
+# if command sender is trying to execute a command that not allowed to.
+command_cant_execute: "&c&oHindi mo maaaring isagawa ang utos na iyon."
+
+# if command sender is trying to execute a command that don't have permission.
+command_no_permission: "&c&oWala kang sapat na pahintulot na gamitin ang command na ito."
+
+# if command sender is trying to execute a command that don't exist.
+command_unknown: "&c&oHindi mahanap ang utos na iyon."
+
+#-----------------------#
+# Command Buff Messages #
+#-----------------------#
+command_buff_usage: "&6/hs buff &r- Tingnan ang buff list sa iyong mundo."
+command_buff_world_not_found: "&c&oHindi mo makikita ang buff list sa mundong ito."
+
+#-------------------------#
+# Command Bypass Messages #
+#-------------------------#
+command_bypass_usage: "&6/hs bypass &r- I-configure ang bypass config."
+command_bypass_world_not_found: "&c&oHindi mo maaaring i-edit ang bypass config sa mundong ito."
+
+#-----------------------#
+# Command Help Messages #
+#-----------------------#
+command_help_usage: "&6/hs help <command_name> &r- Kunin ang impormasyon ng utos."
+command_help_header: "&3----====={Command List}=====----"
+command_help_buff: "&6/hs buff      &r- Tingnan ang buff list sa iyong mundo."
+command_help_bypass: "&6/hs bypass    &r- I-configure ang bypass config."
+command_help_help: "&6/hs help      &r- Tingnan ang listahan ng utos."
+command_help_reload: "&6/hs reload    &r- I-reload ang plugin."
+command_help_setflag: "&6/hs setflag   &r- I-configure ang setting sa bawat mundo."
+command_help_sleep: "&6/hs sleep     &r- Laktawan ang gabi nang hindi natutulog."
+command_help_version: "&6/hs version   &r- Tingnan ang bersyon ng plugin."
+command_help_footer: "&3----====={HewoSleep V2}=====----"
+
+#-------------------------#
+# Command Reload Messages #
+#-------------------------#
+command_reload_usage: "&6/hs reload &r- I-reload ang plugin nang hindi nire-reload ang server."
+command_reload_confirmation: "&7Sigurado ka bang gusto mong i-reload? Upang kumpirmahin, I type mo ang &3/hs reload confirm."
+command_reload_success: "&2Matagumpay na na-reload! (nagtagal ng <time>)."
+
+#--------------------------#
+# Command SetFlag Messages #
+#--------------------------#
+command_setflag_usage: "&6/hs setflag <flags> <value> &r- I-customize ang configuration sa mundo"
+command_setflag_world_not_found: "&c&oMaaari mo lamang baguhin ang config kung ikaw ay nasa overworld"
+command_setflag_flag_list: "&6Ang mga posibleng flag ay: &7<flag_list>"
+command_setflag_config_header: "&3&l---======{Configuration}======---"
+command_setflag_config_enable: "&6Enable: &r<value>"
+command_setflag_config_percentage: "&6Sleeping Percentage: &r<value>"
+command_setflag_config_bed_enter_delay: "&6Bed Enter Delay: &r<value>"
+command_setflag_config_day_length: "&6Day Length: &r<value>"
+command_setflag_config_night_length: "&6Night Length: &r<value>"
+command_setflag_config_night_skip_length: "&6Night Skip Length: &r<value>"
+command_setflag_config_footer: "&3&l---======{HewoSleep V1}======---"
+command_setflag_config_enable_current: "&7Enable ay kasalukuyang nakatakda sa: &6<value>"
+command_setflag_config_enable_change: "&7Enable ay nakatakda na ngayon sa: &6<value>"
+command_setflag_config_percentage_current: "&7Sleeping Percentage ay kasalukuyang nakatakda sa: &6<value>"
+command_setflag_config_percentage_change: "&7Sleeping Percentage ay nakatakda na ngayon sa: &6<value>"
+command_setflag_config_bed_enter_delay_current: "&7Bed enter delay ay kasalukuyang nakatakda sa: &6<value>"
+command_setflag_config_bed_enter_delay_change: "&7Bed enter delay ay nakatakda na ngayon sa: &6<value>"
+command_setflag_config_day_length_current: "&7Day length ay kasalukuyang nakatakda sa: &6<value>"
+command_setflag_config_day_length_change: "&7Day length ay nakatakda na ngayon sa: &6<value>"
+command_setflag_config_night_length_current: "&7Night length ay kasalukuyang nakatakda sa: &6<value>"
+command_setflag_config_night_length_change: "&7Night length ay nakatakda na ngayon sa: &6<value>"
+command_setflag_config_night_skip_length_current: "&7Night skip length ay kasalukuyang nakatakda sa: &6<value>"
+command_setflag_config_night_skip_length_change: "&7Night skip length ay nakatakda na ngayon sa: &6<value>"
+
+#------------------------#
+# Command Sleep Messages #
+#------------------------#
+command_sleep_usage: "&6/hs sleep &r- Laktawan ang gabi nang hindi natutulog."
+command_sleep_world_not_found: "&c&oHindi pinagana ang tulog sa mundong ito."
+command_sleep_day_time: "&c&oHindi ka makatulog sa araw."
+command_sleep_wake_up: "&7Manlalaro &e<user> &7gumising."
+command_sleep_sleeping: "&7Natutulog na ngayon ang player &e<user>"
+
+#--------------------------#
+# Command Version Messages #
+#--------------------------#
+command_version_usage: "&6/hs version &r- Ipakita ang kasalukuyang bersyon ng plugin na ginagamit."
+command_version_message: "&3Ikaw ay gumagamit ng &6<version>."

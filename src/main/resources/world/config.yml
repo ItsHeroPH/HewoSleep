@@ -1,0 +1,39 @@
+#
+#  _   _ _______        _____  ____  _     _____ _____ ____   __     ______
+# | | | | ____\ \      / / _ \/ ___|| |   | ____| ____|  _ \  \ \   / /___ \
+# | |_| |  _|  \ \ /\ / / | | \___ \| |   |  _| |  _| | |_) |  \ \ / /  __) |
+# |  _  | |___  \ V  V /| |_| |___) | |___| |___| |___|  __/    \ V /  / __/
+# |_| |_|_____|  \_/\_/  \___/|____/|_____|_____|_____|_|        \_/  |_____|
+#
+
+# Here you can customize the world configurations.
+
+# Choose if the multiplayer sleep is enabled
+# true    - to enable the multiplayer sleep
+# false   - to disable the multiplayer sleep
+# Default: false
+enable: false
+
+# Choose how many percentage of players are needed to sleep
+# eg. (percentage: 20 -> players: 10 -> needed to sleep to skip the night/storm: 2 players)
+# Default: 100
+percentage: 100
+
+# The time in seconds that players need to wait before they can enter the bed again after leaving it
+# Default: 10
+bed_enter_delay: 10
+
+# The duration (in seconds) of the day
+# This allows you to sped up or slow down the day
+# Default: 700
+day_length: 700
+
+# The duration (in seconds) of the night when not skipping
+# This allows you to sped up or slow down the night
+# Default: 500
+night_length: 500
+
+# The duration (in seconds) of the night when skipping
+# Set this to 0 to skip the night instantly
+# Default: 4
+night_skip_length: 4

@@ -1,11 +1,9 @@
 package com.github.itsheroph.hewosleep.commands;
 
 import com.github.itsheroph.hewosleep.HewoSleep;
-import com.github.itsheroph.hewoutil.messaging.commands.HewoCMDMessenger;
-import com.github.itsheroph.hewoutil.plugin.commands.HewoCommand;
+import com.github.itsheroph.hewosleep.util.Permissions;
+import com.github.itsheroph.hewoutil.plugin.command.HewoCommand;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -13,7 +11,7 @@ public class HelpCommand extends HewoCommand {
 
     public HelpCommand(HewoSleep plugin) {
 
-        super(new HewoCMDMessenger(plugin, plugin.getPluginLogger(), "HewoSleepV1"));
+        super(plugin.getLangConfig().getCmdMessenger());
 
     }
 
@@ -27,36 +25,42 @@ public class HelpCommand extends HewoCommand {
     @Override
     public List<String> getAliases() {
 
-        return List.of("h");
+        return List.of();
 
     }
 
     @Override
-    public List<String> getOptions() {
+    public List<String> getOptions(CommandSender sender, String[] arguments) {
 
-        return List.of(
-                "buff",
-                "bypass",
-                "help",
-                "reload",
-                "setflag",
-                "sleep",
-                "version"
-        );
+        if(arguments.length == 2) {
+
+            return List.of(
+                    "buff",
+                    "bypass",
+                    "help",
+                    "reload",
+                    "setflag",
+                    "sleep",
+                    "version"
+            );
+
+        }
+
+        return List.of();
 
     }
 
     @Override
     public String getPermission() {
 
-        return "hewosleep.command.help";
+        return Permissions.COMMAND_HELP;
 
     }
 
     @Override
     public boolean mayExecute(CommandSender commandSender) {
 
-        return (commandSender instanceof Player || commandSender instanceof ConsoleCommandSender);
+        return Permissions.canExecuteByAll(commandSender);
 
     }
 
@@ -65,62 +69,70 @@ public class HelpCommand extends HewoCommand {
 
         if(arguments.length <= 1) {
 
-            this.getMessenger().sendMessage(commandSender, "command_help_noArgs_header", false);
-            this.getMessenger().sendMessage(commandSender, "command_help_noArgs_buff", false);
-            this.getMessenger().sendMessage(commandSender, "command_help_noArgs_bypass", false);
-            this.getMessenger().sendMessage(commandSender, "command_help_noArgs_help", false);
-            this.getMessenger().sendMessage(commandSender, "command_help_noArgs_reload", false);
-            this.getMessenger().sendMessage(commandSender, "command_help_noArgs_setflag", false);
-            this.getMessenger().sendMessage(commandSender, "command_help_noArgs_sleep", false);
-            this.getMessenger().sendMessage(commandSender, "command_help_noArgs_version", false);
-            this.getMessenger().sendMessage(commandSender, "command_help_noArgs_footer", false);
+            this.getMessenger().sendMessage(commandSender, "command_help_header", false);
+            this.getMessenger().sendMessage(commandSender, "command_help_buff", false);
+            this.getMessenger().sendMessage(commandSender, "command_help_bypass", false);
+            this.getMessenger().sendMessage(commandSender, "command_help_help", false);
+            this.getMessenger().sendMessage(commandSender, "command_help_reload", false);
+            this.getMessenger().sendMessage(commandSender, "command_help_setflag", false);
+            this.getMessenger().sendMessage(commandSender, "command_help_sleep", false);
+            this.getMessenger().sendMessage(commandSender, "command_help_version", false);
+            this.getMessenger().sendMessage(commandSender, "command_help_footer", false);
 
             return true;
 
         }
 
-        switch(arguments[1]) {
-            case "buff":
+        if(arguments.length == 2) {
 
-                this.getMessenger().sendMessage(commandSender, "command_buff_usage", true);
+            switch(arguments[1]) {
 
-                return true;
-            case "bypass":
+                case "buff":
 
-                this.getMessenger().sendMessage(commandSender, "command_bypass_usage", true);
+                    this.getMessenger().sendMessage(commandSender, "command_buff_usage", true);
+                    return true;
 
-                return true;
-            case "help":
+                case "bypass":
 
-                this.getMessenger().sendMessage(commandSender, "command_help_usage", true);
+                    this.getMessenger().sendMessage(commandSender, "command_bypass_usage", true);
+                    return true;
 
-                return true;
-            case "reload":
+                case "help":
 
-                this.getMessenger().sendMessage(commandSender, "command_reload_usage", true);
+                    this.getMessenger().sendMessage(commandSender, "command_help_usage", true);
+                    return true;
 
-                return true;
-            case "setflag":
+                case "reload":
 
-                this.getMessenger().sendMessage(commandSender, "command_setflag_usage", true);
+                    this.getMessenger().sendMessage(commandSender, "command_reload_usage", true);
+                    return true;
 
-                return true;
-            case "sleep":
+                case "setflag":
 
-                this.getMessenger().sendMessage(commandSender, "command_sleep_usage", true);
+                    this.getMessenger().sendMessage(commandSender, "command_setflag_usage", true);
+                    return true;
 
-                return true;
-            case "version":
+                case "sleep":
 
-                this.getMessenger().sendMessage(commandSender, "command_version_usage", true);
+                    this.getMessenger().sendMessage(commandSender, "command_sleep_usage", true);
+                    return true;
 
-                return true;
+                case "version":
+
+                    this.getMessenger().sendMessage(commandSender, "command_version_usage", true);
+                    return true;
+
+                default:
+
+                    this.getMessenger().sendMessage(commandSender, "command_unknown", true);
+                    return true;
+
+            }
 
         }
 
-        this.getMessenger().sendMessage(commandSender, "command_unknown", true);
         this.getMessenger().sendMessage(commandSender, "command_help_usage", true);
-
         return true;
+
     }
 }

@@ -1,108 +1,49 @@
 package com.github.itsheroph.hewosleep.listeners;
 
-import com.github.itsheroph.hewosleep.models.SleepPlayer;
+import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
+import com.github.itsheroph.hewosleep.api.events.world.WorldTimeStateChangeEvent;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
-import com.github.itsheroph.hewosleep.models.SleepWorldConfig;
-import com.github.itsheroph.hewosleep.models.SleepWorldManager;
 import com.github.itsheroph.hewosleep.util.TimeState;
-import com.github.itsheroph.hewoutil.messaging.HewoMessenger;
-import com.github.itsheroph.hewoutil.messaging.HewoMsgEntry;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.TimeSkipEvent;
-import org.bukkit.potion.PotionEffect;
-
-import java.util.List;
-
 
 public class TimeSkipEventListener implements Listener {
 
-    private final SleepWorldManager manager;
+    private final HewoSleepAPI api;
 
-    public TimeSkipEventListener(SleepWorldManager manager) {
+    public TimeSkipEventListener(HewoSleepAPI api) {
 
-        this.manager = manager;
+        this.api = api;
+
+        Bukkit.getPluginManager().registerEvents(this, this.getAPI().getPlugin());
+
+    }
+
+    public HewoSleepAPI getAPI() {
+
+        return api;
 
     }
 
     @EventHandler(
-            priority = EventPriority.HIGHEST
+            priority = EventPriority.LOW
     )
     public void onTimeSkips(TimeSkipEvent event) {
 
-        HewoMessenger messenger = this.manager.getAPI().getMessenger();
-        SleepWorld world = this.manager.getSleepWorld(event.getWorld());
+        SleepWorld world = this.getAPI().getWorldManager().getWorld(event.getWorld());
 
-        if(world == null) return;
-
-        SleepWorldConfig worldConfig = world.getConfig();
-
-        if(!worldConfig.isEnable()) return;
+        if(world == null || !world.getWorldConfig().isEnable()) return;
 
         TimeState nextState = TimeState.getState(world);
         if(world.getTimeState() != nextState) {
 
             world.setTimeState(nextState);
+            this.getAPI().fireEvent(new WorldTimeStateChangeEvent(world, nextState));
 
-            switch(nextState) {
-
-                case CAN_SLEEP_SOON:
-
-                    messenger.sendMessage(world.getAllPlayersInWorld(), "can_sleep_soon", true);
-
-                    break;
-                case CAN_SLEEP_NOW:
-
-                    messenger.sendMessage(world.getAllPlayersInWorld(), "can_sleep_now", true);
-
-                    break;
-                case CANNOT_SLEEP:
-
-                    for(SleepPlayer player : world.getAllPlayers().values()) {
-
-                        if(player.isSleeping()) {
-
-                            List<PotionEffect> buffs = world.getBuffConfig().getBuffsList();;
-
-                            player.setSleeping(false);
-
-                            if(!buffs.isEmpty()) {
-
-                                player.getPlayer().addPotionEffects(buffs);
-                                messenger.sendMessage(player.getPlayer(), "buff_received",
-                                        new HewoMsgEntry("<effects_list>", world.getBuffConfig().getToString(buffs))
-                                );
-
-                            }
-
-                        } else {
-
-                            List<PotionEffect> deBuffs = world.getBuffConfig().getDeBuffsList();
-
-                            if(!deBuffs.isEmpty()) {
-
-                                if(!world.getBypassConfig().isPlayerIgnored(player)) {
-
-                                    player.getPlayer().addPotionEffects(deBuffs);
-                                    messenger.sendMessage(player.getPlayer(), "deBuff_received",
-                                            new HewoMsgEntry("<effects_list>", world.getBuffConfig().getToString(deBuffs))
-                                    );
-
-                                }
-
-                            }
-
-                        }
-
-                        messenger.sendMessage(player.getPlayer(), "dayTime_message",
-                                new HewoMsgEntry("<player>", player.getPlayer().getName())
-                        );
-
-                    }
-
-                    break;
-            }
         }
+
     }
 }

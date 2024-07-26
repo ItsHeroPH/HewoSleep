@@ -1,10 +1,12 @@
 package com.github.itsheroph.hewosleep.commands;
 
 import com.github.itsheroph.hewosleep.HewoSleep;
+import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
+import com.github.itsheroph.hewosleep.models.SleepUser;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
-import com.github.itsheroph.hewoutil.messaging.HewoMsgEntry;
-import com.github.itsheroph.hewoutil.messaging.commands.HewoCMDMessenger;
-import com.github.itsheroph.hewoutil.plugin.commands.HewoCommand;
+import com.github.itsheroph.hewosleep.util.Permissions;
+import com.github.itsheroph.hewoutil.messages.HewoMsgEntry;
+import com.github.itsheroph.hewoutil.plugin.command.HewoCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -12,13 +14,13 @@ import java.util.List;
 
 public class SetFlagCommand extends HewoCommand {
 
-    private final HewoSleep plugin;
+    private final HewoSleepAPI api;
 
     public SetFlagCommand(HewoSleep plugin) {
 
-        super(new HewoCMDMessenger(plugin, plugin.getPluginLogger(), "HewoSleepV1"));
+        super(plugin.getLangConfig().getCmdMessenger());
 
-        this.plugin = plugin;
+        this.api = plugin.getAPI();
 
     }
 
@@ -31,36 +33,39 @@ public class SetFlagCommand extends HewoCommand {
 
     @Override
     public List<String> getAliases() {
-
         return List.of();
-
     }
 
     @Override
-    public List<String> getOptions() {
+    public List<String> getOptions(CommandSender commandSender, String[] arguments) {
+        
+        if(arguments.length == 2) {
 
-        return List.of(
-                "enable",
-                "sleeping_percentage",
-                "bed_enter_delay",
-                "day_length",
-                "night_length",
-                "night_skip_length"
-        );
+            return List.of(
+                    "enable",
+                    "sleeping_percentage",
+                    "bed_enter_delay",
+                    "day_length",
+                    "night_length",
+                    "night_skip_length"
+            );
+
+        }
+        return List.of();
 
     }
 
     @Override
     public String getPermission() {
 
-        return "hewosleep.command.setflag";
+        return Permissions.COMMAND_SETFLAG;
 
     }
 
     @Override
     public boolean mayExecute(CommandSender commandSender) {
 
-        return (commandSender instanceof Player);
+        return Permissions.playerExecuteOnly(commandSender);
 
     }
 
@@ -68,41 +73,44 @@ public class SetFlagCommand extends HewoCommand {
     public boolean execute(CommandSender commandSender, String[] arguments) {
 
         Player player = (Player) commandSender;
-        SleepWorld world = this.plugin.getAPI().getManager().getSleepWorld(player);
+        SleepUser user = this.getAPI().getUserManager().getUser(player);
 
-        if(world == null) {
+        if(user == null) {
 
             this.getMessenger().sendMessage(commandSender, "command_setflag_world_not_found", true);
-
             return true;
+
         }
+
+        SleepWorld world = user.getWorld();
 
         if(arguments.length == 1) {
 
             this.getMessenger().sendMessage(commandSender, "command_setflag_config_header", false);
             this.getMessenger().sendMessage(commandSender, "command_setflag_config_enable", false,
-                    new HewoMsgEntry("<value>", world.getConfig().isEnable())
+                    new HewoMsgEntry("<value>", world.getWorldConfig().isEnable())
             );
             this.getMessenger().sendMessage(commandSender, "command_setflag_config_percentage", false,
-                    new HewoMsgEntry("<value>", world.getConfig().getPercentage() + "%")
+                    new HewoMsgEntry("<value>", world.getWorldConfig().getPercentage() + "%")
             );
-            this.getMessenger().sendMessage(commandSender, "command_setflag_config_bedEnterDelay", false,
-                    new HewoMsgEntry("<value>", world.getConfig().getBedEnterDelay() + "s")
+            this.getMessenger().sendMessage(commandSender, "command_setflag_config_bed_enter_delay", false,
+                    new HewoMsgEntry("<value>", world.getWorldConfig().getBedEnterDelay() + "s")
             );
-            this.getMessenger().sendMessage(commandSender, "command_setflag_config_dayLength", false,
-                    new HewoMsgEntry("<value>", world.getConfig().getDayLength() + "s")
+            this.getMessenger().sendMessage(commandSender, "command_setflag_config_day_length", false,
+                    new HewoMsgEntry("<value>", world.getWorldConfig().getDayDuration() + "s")
             );
-            this.getMessenger().sendMessage(commandSender, "command_setflag_config_nightLength", false,
-                    new HewoMsgEntry("<value>", world.getConfig().getNightLength() + "s")
+            this.getMessenger().sendMessage(commandSender, "command_setflag_config_night_length", false,
+                    new HewoMsgEntry("<value>", world.getWorldConfig().getNightDuration() + "s")
             );
-            this.getMessenger().sendMessage(commandSender, "command_setflag_config_nightSkipLength", false,
-                    new HewoMsgEntry("<value>", world.getConfig().getNightSkipLength() + "s")
+            this.getMessenger().sendMessage(commandSender, "command_setflag_config_night_skip_length", false,
+                    new HewoMsgEntry("<value>", world.getWorldConfig().getNightSkippingDuration() + "s")
             );
             this.getMessenger().sendMessage(commandSender, "command_setflag_config_footer", false);
 
             return true;
 
         }
+
         String flag = arguments[1];
 
         try {
@@ -112,7 +120,7 @@ public class SetFlagCommand extends HewoCommand {
                     if (arguments.length == 2) {
 
                         this.getMessenger().sendMessage(commandSender, "command_setflag_config_enable_current",
-                                new HewoMsgEntry("<value>", world.getConfig().isEnable())
+                                new HewoMsgEntry("<value>", world.getWorldConfig().isEnable())
                         );
 
                         return true;
@@ -123,7 +131,7 @@ public class SetFlagCommand extends HewoCommand {
 
                     if(enable.equalsIgnoreCase("true") || enable.equalsIgnoreCase("false")) {
 
-                        world.getConfig().setEnable(Boolean.parseBoolean(enable));
+                        world.getWorldConfig().setEnable(Boolean.parseBoolean(enable));
                         this.getMessenger().sendMessage(commandSender, "command_setflag_config_enable_change",
                                 new HewoMsgEntry("<value>", Boolean.parseBoolean(enable))
                         );
@@ -137,7 +145,7 @@ public class SetFlagCommand extends HewoCommand {
                     if (arguments.length == 2) {
 
                         this.getMessenger().sendMessage(commandSender, "command_setflag_config_percentage_current",
-                                new HewoMsgEntry("<value>", world.getConfig().getPercentage() + "%")
+                                new HewoMsgEntry("<value>", world.getWorldConfig().getPercentage() + "%")
                         );
 
                         return true;
@@ -148,7 +156,7 @@ public class SetFlagCommand extends HewoCommand {
 
                     if(percentage >= 0) {
 
-                        world.getConfig().setPercentage(percentage);
+                        world.getWorldConfig().setPercentage(percentage);
                         this.getMessenger().sendMessage(commandSender, "command_setflag_config_percentage_change",
                                 new HewoMsgEntry("<value>", percentage + "%")
                         );
@@ -161,8 +169,8 @@ public class SetFlagCommand extends HewoCommand {
 
                     if (arguments.length == 2) {
 
-                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_bedEnterDelay_current",
-                                new HewoMsgEntry("<value>", world.getConfig().getBedEnterDelay() + "s")
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_bed_enter_delay_current",
+                                new HewoMsgEntry("<value>", world.getWorldConfig().getBedEnterDelay() + "s")
                         );
 
                         return true;
@@ -174,8 +182,8 @@ public class SetFlagCommand extends HewoCommand {
 
                     if(bedEnterDelay >= 0) {
 
-                        world.getConfig().setBedEnterDelay(bedEnterDelay);
-                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_bedEnterDelay_change",
+                        world.getWorldConfig().setBedEnterDelay(bedEnterDelay);
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_bed_enter_delay_change",
                                 new HewoMsgEntry("<value>", bedEnterDelay + "s")
                         );
 
@@ -187,8 +195,8 @@ public class SetFlagCommand extends HewoCommand {
 
                     if (arguments.length == 2) {
 
-                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_dayLength_current",
-                                new HewoMsgEntry("<value>", world.getConfig().getDayLength() + "s")
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_day_length_current",
+                                new HewoMsgEntry("<value>", world.getWorldConfig().getDayDuration() + "s")
                         );
 
                         return true;
@@ -200,8 +208,8 @@ public class SetFlagCommand extends HewoCommand {
 
                     if(dayLength >= 0) {
 
-                        world.getConfig().setDayLength(dayLength);
-                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_dayLength_change",
+                        world.getWorldConfig().setDayDuration(dayLength);
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_day_length_change",
                                 new HewoMsgEntry("<value>", dayLength + "s")
                         );
 
@@ -213,8 +221,8 @@ public class SetFlagCommand extends HewoCommand {
 
                     if (arguments.length == 2) {
 
-                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_nightLength_current",
-                                new HewoMsgEntry("<value>", world.getConfig().getNightLength() + "s")
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_night_length_current",
+                                new HewoMsgEntry("<value>", world.getWorldConfig().getNightDuration() + "s")
                         );
 
                         return true;
@@ -226,8 +234,8 @@ public class SetFlagCommand extends HewoCommand {
 
                     if(nightLength >= 0) {
 
-                        world.getConfig().setNightLength(nightLength);
-                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_nightLength_change",
+                        world.getWorldConfig().setNightDuration(nightLength);
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_night_length_change",
                                 new HewoMsgEntry("<value>", nightLength + "s")
                         );
 
@@ -239,8 +247,8 @@ public class SetFlagCommand extends HewoCommand {
 
                     if (arguments.length == 2) {
 
-                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_nightSkipLength_current",
-                                new HewoMsgEntry("<value>", world.getConfig().getNightSkipLength() + "s")
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_night_skip_length_current",
+                                new HewoMsgEntry("<value>", world.getWorldConfig().getNightSkippingDuration() + "s")
                         );
 
                         return true;
@@ -252,8 +260,8 @@ public class SetFlagCommand extends HewoCommand {
 
                     if(nightSkipLength >= 0) {
 
-                        world.getConfig().setNightSkipLength(nightSkipLength);
-                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_nightSkipLength_change",
+                        world.getWorldConfig().setNightSkippingDuration(nightSkipLength);
+                        this.getMessenger().sendMessage(commandSender, "command_setflag_config_night_skip_length_change",
                                 new HewoMsgEntry("<value>", nightSkipLength + "s")
                         );
 
@@ -264,11 +272,12 @@ public class SetFlagCommand extends HewoCommand {
                 default:
 
                     this.getMessenger().sendMessage(commandSender, "command_setflag_flag_list",
-                            new HewoMsgEntry("<flag_list>", this.getOptions().toString().replace("[", "").replace("]", ""))
+                            new HewoMsgEntry("<flag_list>", "enable, sleeping_percentage, bed_enter_delay, day_length, night_length, night_skip_length")
                     );
 
                     break;
             }
+
         } catch(NumberFormatException err) {
 
             this.getMessenger().sendMessage(commandSender, "command_setflag_usage", true);
@@ -278,6 +287,12 @@ public class SetFlagCommand extends HewoCommand {
 
         this.getMessenger().sendMessage(commandSender, "command_setflag_usage", true);
         return true;
+
+    }
+
+    public HewoSleepAPI getAPI() {
+
+        return this.api;
 
     }
 }
