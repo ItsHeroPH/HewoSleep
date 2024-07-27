@@ -2,7 +2,6 @@ package com.github.itsheroph.hewosleep.commands;
 
 import com.github.itsheroph.hewosleep.HewoSleep;
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
-import com.github.itsheroph.hewosleep.api.events.user.UserSleepingStateChangeEvent;
 import com.github.itsheroph.hewosleep.api.events.user.UserSleepingStateChangeEvent.Cause;
 import com.github.itsheroph.hewosleep.models.SleepUser;
 import com.github.itsheroph.hewosleep.util.Permissions;
@@ -83,16 +82,14 @@ public class SleepCommand extends HewoCommand {
 
         if(user.isSleeping()) {
 
-            user.setSleeping(false);
-            this.getAPI().fireEvents(new UserSleepingStateChangeEvent(user, false, Cause.COMMAND));
+            user.setSleeping(false, Cause.COMMAND);
             this.getMessenger().sendMessage(commandSender, "command_sleep_wake_up",
                     new HewoMsgEntry("<user>", user.getBase().getName())
             );
 
         } else {
 
-            user.setSleeping(true);
-            this.getAPI().fireEvents(new UserSleepingStateChangeEvent(user, true, Cause.COMMAND));
+            user.setSleeping(true, Cause.COMMAND);
             this.getMessenger().sendMessage(commandSender, "command_sleep_sleeping",
                     new HewoMsgEntry("<user>", user.getBase().getName())
             );

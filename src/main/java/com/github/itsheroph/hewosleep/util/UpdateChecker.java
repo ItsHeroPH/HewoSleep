@@ -21,19 +21,17 @@ public class UpdateChecker {
     public static final String RELEASES_URL = "https://github.com/ItsHeroPH/HewoSleep/releases";
 
     private final HewoSleep plugin;
-    private final String currentVersion;
 
     public UpdateChecker(HewoSleep plugin) {
 
         this.plugin = plugin;
-        this.currentVersion = plugin.getDescription().getVersion();
 
     }
 
     public boolean isLatestVersion() {
 
         Version newVersion = this.parseLatestVersion();
-        Version version = new Version(this.plugin, this.currentVersion);
+        Version version = new Version(this.plugin);
 
         if (newVersion.getMajor() > version.getMajor()) {
 
@@ -70,7 +68,7 @@ public class UpdateChecker {
             HttpURLConnection connection = (HttpURLConnection) new URL(LATEST_VERSION_URL).openConnection();
             connection.connect();
 
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_INTERNAL_ERROR || connection.getResponseCode() == HttpURLConnection.HTTP_FORBIDDEN) new Version(this.plugin, this.currentVersion);
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_INTERNAL_ERROR || connection.getResponseCode() == HttpURLConnection.HTTP_FORBIDDEN) new Version(this.plugin);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             String latestRelease = new Gson().fromJson(reader, JsonObject.class).get("tag_name").getAsString();
@@ -80,7 +78,7 @@ public class UpdateChecker {
         } catch (IOException e) {
 
             this.plugin.getPluginLogger().error(e.getMessage());
-            return new Version(this.plugin, this.currentVersion);
+            return new Version(this.plugin);
 
         }
 

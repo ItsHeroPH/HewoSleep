@@ -1,7 +1,6 @@
 package com.github.itsheroph.hewosleep.listeners.Gsit;
 
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
-import com.github.itsheroph.hewosleep.api.events.user.UserSleepingStateChangeEvent;
 import com.github.itsheroph.hewosleep.api.events.user.UserSleepingStateChangeEvent.Cause;
 import com.github.itsheroph.hewosleep.models.SleepUser;
 import dev.geco.gsit.api.event.PlayerGetUpPoseEvent;
@@ -44,8 +43,7 @@ public class PlayerPoseEventsListener implements Listener {
         if(event.getPoseSeat().getPose() == Pose.SLEEPING) {
 
             user.updateLastMoved();
-            user.setSleeping(true);
-            this.getAPI().fireEvents(new UserSleepingStateChangeEvent(user, true, Cause.PLUGIN));
+            user.setSleeping(true, Cause.PLUGIN);
 
         }
 
@@ -63,8 +61,7 @@ public class PlayerPoseEventsListener implements Listener {
         if(event.getPoseSeat().getPose() == Pose.SLEEPING) {
 
             user.updateLastMoved();
-            user.setSleeping(false);
-            this.getAPI().fireEvents(new UserSleepingStateChangeEvent(user, false, Cause.PLUGIN));
+            user.setSleeping(false, Cause.PLUGIN);
 
         }
 

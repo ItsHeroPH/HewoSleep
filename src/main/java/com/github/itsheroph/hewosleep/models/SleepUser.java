@@ -1,5 +1,7 @@
 package com.github.itsheroph.hewosleep.models;
 
+import com.github.itsheroph.hewosleep.api.events.user.UserSleepingStateChangeEvent;
+import com.github.itsheroph.hewosleep.api.events.user.UserSleepingStateChangeEvent.Cause;
 import com.github.itsheroph.hewosleep.models.configuration.BypassConfig;
 import com.github.itsheroph.hewosleep.models.managers.UserManager;
 import com.github.itsheroph.hewosleep.runnables.SleepUserRunnable;
@@ -100,6 +102,18 @@ public class SleepUser {
     }
 
     public void setSleeping(boolean sleeping) {
+
+        this.setSleeping(sleeping, Cause.UNKNOWN);
+
+    }
+
+    public void setSleeping(boolean sleeping, Cause cause) {
+
+        if(this.sleeping != sleeping) {
+
+            this.getManager().getAPI().fireEvents(new UserSleepingStateChangeEvent(this, sleeping, cause));
+
+        }
 
         if(sleeping) {
 

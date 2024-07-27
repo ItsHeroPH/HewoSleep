@@ -38,10 +38,8 @@ public class PlayerJoinAndLeaveEventListener implements Listener {
 
         SleepWorld world = this.getAPI().getWorldManager().getWorld(player.getWorld());
 
-        // if the world that player is current at is not exist on the manager, then the player will be ignored
         if(world == null) return;
 
-        // else if the world is existed, then the player will add to the manager
         SleepUser newUser = new SleepUser(this.getAPI().getUserManager(), player);
         this.getAPI().getUserManager().addUser(newUser);
 

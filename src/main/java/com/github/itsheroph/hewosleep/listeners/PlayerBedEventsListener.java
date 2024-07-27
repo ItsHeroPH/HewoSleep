@@ -1,7 +1,6 @@
 package com.github.itsheroph.hewosleep.listeners;
 
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
-import com.github.itsheroph.hewosleep.api.events.user.UserSleepingStateChangeEvent;
 import com.github.itsheroph.hewosleep.api.events.user.UserSleepingStateChangeEvent.Cause;
 import com.github.itsheroph.hewosleep.models.SleepUser;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
@@ -104,8 +103,7 @@ public class PlayerBedEventsListener implements Listener {
         }
 
         user.updateLastMoved();
-        user.setSleeping(true);
-        this.getAPI().fireEvents(new UserSleepingStateChangeEvent(user, true,Cause.BED));
+        user.setSleeping(true, Cause.BED);
 
         this.getAPI().getMessenger().sendMessage(world.getPlayers(), "bed_enter_success",
                 new HewoMsgEntry("<user>", player.getName())
@@ -142,8 +140,7 @@ public class PlayerBedEventsListener implements Listener {
         if(user.isSleeping()) {
 
             user.updateLastMoved();
-            user.setSleeping(false);
-            this.getAPI().fireEvents(new UserSleepingStateChangeEvent(user, false, Cause.BED));
+            user.setSleeping(false, Cause.BED);
 
         }
 

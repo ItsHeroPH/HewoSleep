@@ -38,20 +38,16 @@ public class PlayerChangedWorldEventListener implements Listener {
         SleepUser user = this.getAPI().getUserManager().getUser(player);
         SleepWorld newWorld = this.getAPI().getWorldManager().getWorld(player.getWorld());
 
-        // if user is not exist to the manager but the new world is existing
         if(user == null && newWorld != null) {
 
-            // we will add the user to the manager
             SleepUser newUser = new SleepUser(this.getAPI().getUserManager(), player);
 
             this.getAPI().getUserManager().addUser(newUser);
 
         }
 
-        // else if user is existing but the new world is not
         if(user != null && newWorld == null) {
 
-            // we will remove the user to the manager
             this.getAPI().getUserManager().removeUser(user);
 
         }

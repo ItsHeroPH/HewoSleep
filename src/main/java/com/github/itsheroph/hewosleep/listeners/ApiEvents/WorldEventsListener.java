@@ -3,7 +3,7 @@ package com.github.itsheroph.hewosleep.listeners.ApiEvents;
 import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
 import com.github.itsheroph.hewosleep.api.events.user.UserBuffsReceivedEvent;
 import com.github.itsheroph.hewosleep.api.events.user.UserDeBuffsReceivedEvent;
-import com.github.itsheroph.hewosleep.api.events.user.UserSleepingStateChangeEvent;
+import com.github.itsheroph.hewosleep.api.events.user.UserSleepingStateChangeEvent.Cause;
 import com.github.itsheroph.hewosleep.api.events.world.SleepPossibleNowEvent;
 import com.github.itsheroph.hewosleep.api.events.world.SleepPossibleSoonEvent;
 import com.github.itsheroph.hewosleep.api.events.world.WorldBecomeMorningEvent;
@@ -52,8 +52,7 @@ public class WorldEventsListener implements Listener {
 
             if(user.isSleeping()) {
 
-                user.setSleeping(false);
-                this.getAPI().fireEvents(new UserSleepingStateChangeEvent(user, false, UserSleepingStateChangeEvent.Cause.NIGHT_SKIPPED));
+                user.setSleeping(false, Cause.NIGHT_SKIPPED);
 
                 List<PotionEffect> buffs = world.getBuffConfig().getBuffsList();
 

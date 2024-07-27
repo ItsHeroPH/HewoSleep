@@ -9,7 +9,8 @@ public class UserSleepingStateChangeEvent extends UserEvent {
         COMMAND,
         PLUGIN,
         BED,
-        NIGHT_SKIPPED
+        NIGHT_SKIPPED,
+        UNKNOWN
 
     }
 
