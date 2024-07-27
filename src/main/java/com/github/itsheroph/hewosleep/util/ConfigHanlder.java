@@ -27,7 +27,7 @@ public class ConfigHanlder {
             plugin.getPluginLogger().log("&7&oStarting migrating HewoSleepV1 -> HewoSleepV2");
 
             File oldFolder = plugin.getDataFolder();
-            File newFolder = new Version(plugin.getDescription().getVersion()).getDataFolder();
+            File newFolder = new Version(plugin).getDataFolder();
 
             if(!newFolder.exists()) {
 

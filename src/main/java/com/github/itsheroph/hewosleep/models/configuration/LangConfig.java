@@ -29,7 +29,7 @@ public class LangConfig {
 
         }
 
-        File file = new File(new Version(plugin.getDescription().getVersion()).getDataFolder(), "lang.yml");
+        File file = new File(new Version(plugin).getDataFolder(), "lang.yml");
         HewoLang config = new HewoLang(plugin, "language/" + lang + ".yml", file.getPath());
 
         this.messenger = new HewoMessenger(plugin, plugin.getPluginLogger(), "HS2", config.getMessages());

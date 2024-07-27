@@ -1,5 +1,6 @@
 package com.github.itsheroph.hewosleep.util.version;
 
+import com.github.itsheroph.hewosleep.HewoSleep;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
@@ -7,31 +8,61 @@ import java.io.File;
 
 public class Version {
 
-    private final String version;
+    private int major;
+    private int minor;
+    private int patch;
 
+    public Version(HewoSleep plugin) {
 
-    public Version(String version) {
+        this(plugin, plugin.getDescription().getVersion());
 
-        this.version = version;
+    }
+
+    public Version(HewoSleep plugin, String version) {
+
+        String[] parts = version.split("\\.");
+        if (parts.length < 1 || parts.length > 3) {
+
+            plugin.getPluginLogger().error("Invalid version format: " + version);
+
+        }
+
+        try {
+
+            this.major = Integer.parseInt(parts[0]);
+            this.minor = parts.length > 1 ? Integer.parseInt(parts[1]) : 0;
+            this.patch = parts.length > 2 ? Integer.parseInt(parts[2]) : 0;
+
+        } catch (NumberFormatException e) {
+
+            plugin.getPluginLogger().error("Invalid version number: " + version);
+
+        }
 
     }
 
     public int getMajor() {
 
-        return Integer.parseInt(this.version.split("\\.")[0]);
+        return this.major;
 
     }
 
     public int getMinor() {
 
-        return Integer.parseInt(this.version.split("\\.")[1]);
+        return this.minor;
 
     }
 
     public int getPatch() {
 
-        return this.version.split("\\.").length > 2 ? Integer.parseInt(this.version.split("\\.")[2]) : 0;
+        return this.patch;
 
+
+    }
+
+    public String toString() {
+
+        return this.getMajor() + "." + this.getMinor() + "." + this.getPatch();
 
     }
 

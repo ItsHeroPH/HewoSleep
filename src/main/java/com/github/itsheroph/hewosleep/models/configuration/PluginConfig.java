@@ -20,7 +20,7 @@ public class PluginConfig {
     public PluginConfig(HewoSleep plugin) {
 
         this.plugin = plugin;
-        File file = new File(new Version(this.plugin.getDescription().getVersion()).getDataFolder(), "config.yml");
+        File file = new File(new Version(this.plugin).getDataFolder(), "config.yml");
         this.config = new HewoConfig(plugin, "config.yml", file);
         this.getConfig().options().copyDefaults(true);
 

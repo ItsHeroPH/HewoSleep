@@ -112,7 +112,7 @@ public class HewoSleep extends HewoPlugin implements HewoPluginReloadable {
 
             this.getPluginLogger().log(false,
                     "&3================================================",
-                    "&6HewoSleep &av" + latestVersion.getMajor() + "." + latestVersion.getMinor() + "." + latestVersion.getPatch() + " &6is now out!",
+                    "&6HewoSleep &av" + latestVersion.toString() + " &6is now out!",
                     "&6Download the latest version:",
                     "&a" + UpdateChecker.RELEASES_URL,
                     "&3================================================"

@@ -21,7 +21,7 @@ public class BypassConfig {
         this.plugin = world.getManager().getAPI().getPlugin();
         this.world = world;
 
-        File file = new File(new Version(this.plugin.getDescription().getVersion()).getDataFolder(),
+        File file = new File(new Version(this.plugin).getDataFolder(),
                 File.separator + "world_data" + File.separator + this.getWorld().getBase().getName() + File.separator + "bypass.yml"
         );
         this.config = new HewoConfig(

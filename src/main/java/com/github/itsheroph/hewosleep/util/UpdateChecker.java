@@ -33,13 +33,33 @@ public class UpdateChecker {
     public boolean isLatestVersion() {
 
         Version newVersion = this.parseLatestVersion();
-        Version version = new Version(this.currentVersion);
+        Version version = new Version(this.plugin, this.currentVersion);
 
-        if(newVersion.getMajor() < version.getMajor()) return true;
-        if(newVersion.getMinor() < version.getMinor()) return true;
-        if(newVersion.getPatch() < version.getPatch()) return true;
+        if (newVersion.getMajor() > version.getMajor()) {
 
-        return false;
+            return false;
+
+        }
+
+        if (newVersion.getMajor() < version.getMajor()) {
+
+            return true;
+
+        }
+
+        if (newVersion.getMinor() > version.getMinor()) {
+
+            return false;
+
+        }
+
+        if (newVersion.getMinor() < version.getMinor()) {
+
+            return true;
+
+        }
+
+        return newVersion.getPatch() <= version.getPatch();
 
     }
 
@@ -50,17 +70,17 @@ public class UpdateChecker {
             HttpURLConnection connection = (HttpURLConnection) new URL(LATEST_VERSION_URL).openConnection();
             connection.connect();
 
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_INTERNAL_ERROR || connection.getResponseCode() == HttpURLConnection.HTTP_FORBIDDEN) new Version(this.currentVersion);
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_INTERNAL_ERROR || connection.getResponseCode() == HttpURLConnection.HTTP_FORBIDDEN) new Version(this.plugin, this.currentVersion);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             String latestRelease = new Gson().fromJson(reader, JsonObject.class).get("tag_name").getAsString();
 
-            return new Version(latestRelease);
+            return new Version(this.plugin, latestRelease);
 
         } catch (IOException e) {
 
             this.plugin.getPluginLogger().error(e.getMessage());
-            return new Version(this.currentVersion);
+            return new Version(this.plugin, this.currentVersion);
 
         }
 
