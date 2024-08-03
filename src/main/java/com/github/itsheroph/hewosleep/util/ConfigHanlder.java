@@ -4,6 +4,7 @@ import com.github.itsheroph.hewosleep.HewoSleep;
 import com.github.itsheroph.hewosleep.util.version.Version;
 import com.github.itsheroph.hewoutil.configuration.HewoConfig;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -102,7 +103,11 @@ public class ConfigHanlder {
 
         for(String path : newConfig.getConfig().getKeys(false)) {
 
-            newConfig.getConfig().set(path, oldConfig.get(path));
+            if(oldConfig.contains(path)) {
+
+                newConfig.getConfig().set(path, oldConfig.get(path));
+
+            }
 
         }
 

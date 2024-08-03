@@ -6,14 +6,14 @@ import com.github.itsheroph.hewosleep.api.events.user.UserSleepingStateChangeEve
 import com.github.itsheroph.hewosleep.models.SleepUser;
 import com.github.itsheroph.hewosleep.util.Permissions;
 import com.github.itsheroph.hewosleep.util.TimeUtil;
+import com.github.itsheroph.hewoutil.commands.HewoSubCommand;
 import com.github.itsheroph.hewoutil.messages.HewoMsgEntry;
-import com.github.itsheroph.hewoutil.plugin.command.HewoCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class SleepCommand extends HewoCommand {
+public class SleepCommand extends HewoSubCommand {
 
     private final HewoSleepAPI api;
 
@@ -29,13 +29,6 @@ public class SleepCommand extends HewoCommand {
     public String getName() {
 
         return "sleep";
-
-    }
-
-    @Override
-    public List<String> getAliases() {
-
-        return List.of();
 
     }
 

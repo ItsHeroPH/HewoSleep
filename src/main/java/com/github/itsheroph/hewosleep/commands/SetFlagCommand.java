@@ -5,14 +5,14 @@ import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
 import com.github.itsheroph.hewosleep.models.SleepUser;
 import com.github.itsheroph.hewosleep.models.SleepWorld;
 import com.github.itsheroph.hewosleep.util.Permissions;
+import com.github.itsheroph.hewoutil.commands.HewoSubCommand;
 import com.github.itsheroph.hewoutil.messages.HewoMsgEntry;
-import com.github.itsheroph.hewoutil.plugin.command.HewoCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class SetFlagCommand extends HewoCommand {
+public class SetFlagCommand extends HewoSubCommand {
 
     private final HewoSleepAPI api;
 
@@ -29,11 +29,6 @@ public class SetFlagCommand extends HewoCommand {
 
         return "setflag";
 
-    }
-
-    @Override
-    public List<String> getAliases() {
-        return List.of();
     }
 
     @Override

@@ -2,12 +2,12 @@ package com.github.itsheroph.hewosleep.commands;
 
 import com.github.itsheroph.hewosleep.HewoSleep;
 import com.github.itsheroph.hewosleep.util.Permissions;
-import com.github.itsheroph.hewoutil.plugin.command.HewoCommand;
+import com.github.itsheroph.hewoutil.commands.HewoSubCommand;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class HelpCommand extends HewoCommand {
+public class HelpCommand extends HewoSubCommand {
 
     public HelpCommand(HewoSleep plugin) {
 
@@ -19,13 +19,6 @@ public class HelpCommand extends HewoCommand {
     public String getName() {
 
         return "help";
-
-    }
-
-    @Override
-    public List<String> getAliases() {
-
-        return List.of();
 
     }
 

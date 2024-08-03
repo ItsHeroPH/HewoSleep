@@ -13,8 +13,9 @@ import com.github.itsheroph.hewosleep.listeners.PlayerJoinAndLeaveEventListener;
 import com.github.itsheroph.hewosleep.listeners.TimeSkipEventListener;
 import com.github.itsheroph.hewosleep.models.managers.UserManager;
 import com.github.itsheroph.hewosleep.models.managers.WorldManager;
+import com.github.itsheroph.hewoutil.commands.HewoCMDManager;
+import com.github.itsheroph.hewoutil.commands.HewoSubCMDHandler;
 import com.github.itsheroph.hewoutil.messages.HewoMessenger;
-import com.github.itsheroph.hewoutil.plugin.command.HewoCMDHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -145,9 +146,8 @@ public class HewoSleepAPI {
 
     public void registerCommands() {
 
-        this.getPlugin().getCommand("hewosleep").setExecutor(
-                new HewoCMDHandler(this.getPlugin(),
-                        this.getPlugin().getLangConfig().getCmdMessenger(),
+        HewoCMDManager.registerSubCommand(this.getPlugin(),
+                new HewoSubCMDHandler(this.getPlugin().getLangConfig().getCmdMessenger(), "hewosleep",
                         new BuffCommand(this.getPlugin()),
                         new BypassCommand(this.getPlugin()),
                         new HelpCommand(this.getPlugin()),

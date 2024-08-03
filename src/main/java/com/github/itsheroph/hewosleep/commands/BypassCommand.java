@@ -5,14 +5,14 @@ import com.github.itsheroph.hewosleep.api.HewoSleepAPI;
 import com.github.itsheroph.hewosleep.models.SleepUser;
 import com.github.itsheroph.hewosleep.models.menu.bypass.BypassMenu;
 import com.github.itsheroph.hewosleep.util.Permissions;
+import com.github.itsheroph.hewoutil.commands.HewoSubCommand;
 import com.github.itsheroph.hewoutil.gui.HewoMenuManager;
-import com.github.itsheroph.hewoutil.plugin.command.HewoCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class BypassCommand extends HewoCommand {
+public class BypassCommand extends HewoSubCommand {
 
     private final HewoSleepAPI api;
 
@@ -28,13 +28,6 @@ public class BypassCommand extends HewoCommand {
     public String getName() {
 
         return "bypass";
-
-    }
-
-    @Override
-    public List<String> getAliases() {
-
-        return List.of();
 
     }
 

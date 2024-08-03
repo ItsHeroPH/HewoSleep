@@ -2,13 +2,13 @@ package com.github.itsheroph.hewosleep.commands;
 
 import com.github.itsheroph.hewosleep.HewoSleep;
 import com.github.itsheroph.hewosleep.util.Permissions;
+import com.github.itsheroph.hewoutil.commands.HewoSubCommand;
 import com.github.itsheroph.hewoutil.messages.HewoMsgEntry;
-import com.github.itsheroph.hewoutil.plugin.command.HewoCommand;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class VersionCommand extends HewoCommand {
+public class VersionCommand extends HewoSubCommand {
 
     private final HewoSleep plugin;
 
@@ -23,13 +23,6 @@ public class VersionCommand extends HewoCommand {
     public String getName() {
 
         return "version";
-
-    }
-
-    @Override
-    public List<String> getAliases() {
-
-        return List.of();
 
     }
 

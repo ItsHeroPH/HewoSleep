@@ -2,8 +2,8 @@ package com.github.itsheroph.hewosleep.commands;
 
 import com.github.itsheroph.hewosleep.HewoSleep;
 import com.github.itsheroph.hewosleep.util.Permissions;
+import com.github.itsheroph.hewoutil.commands.HewoSubCommand;
 import com.github.itsheroph.hewoutil.messages.HewoMsgEntry;
-import com.github.itsheroph.hewoutil.plugin.command.HewoCommand;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,7 +12,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
-public class ReloadCommand extends HewoCommand {
+public class ReloadCommand extends HewoSubCommand {
 
     private final HewoSleep plugin;
 
@@ -28,13 +28,6 @@ public class ReloadCommand extends HewoCommand {
     public String getName() {
 
         return "reload";
-
-    }
-
-    @Override
-    public List<String> getAliases() {
-
-        return List.of();
 
     }
 
